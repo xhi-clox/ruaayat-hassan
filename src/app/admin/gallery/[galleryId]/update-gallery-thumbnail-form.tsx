@@ -30,7 +30,7 @@ type UpdateGalleryThumbnailFormProps = {
 };
 
 export default function UpdateGalleryThumbnailForm({ gallery }: UpdateGalleryThumbnailFormProps) {
-  const { app } = useFirebaseApp();
+  const app = useFirebaseApp();
   const firestore = useFirestore();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,6 +79,8 @@ export default function UpdateGalleryThumbnailForm({ gallery }: UpdateGalleryThu
         title: 'Thumbnail Updated!',
         description: 'The gallery thumbnail has been successfully updated.',
       });
+      // Update the preview with the final URL from storage
+      setPreview(thumbnailUrl);
     } catch (error: any) {
       console.error('Error updating gallery thumbnail:', error);
       toast({
