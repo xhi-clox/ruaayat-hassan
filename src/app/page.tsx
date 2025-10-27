@@ -31,6 +31,9 @@ export default function Home() {
         <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl">
           Creative Illustrator & Digital Artist
         </p>
+        <p className="mt-6 font-bio text-2xl md:text-3xl text-foreground/80 max-w-3xl leading-relaxed">
+          Hi, I’m RUBAYAT, an 18-year-old artist who loves creating both digitally and traditionally. I work with digital art, inking, and painting — whatever helps bring my ideas to life. My style is a mix of mood, character, and a bit of pop culture. Sometimes it’s clean, sometimes messy — but always personal. I’m still growing, still experimenting, and always making something that feels true to me.
+        </p>
       </section>
 
       <section className="my-16 md:my-24 py-16 bg-card/50 rounded-2xl shadow-lg">
