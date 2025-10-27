@@ -13,7 +13,7 @@ type HeroAnimationProps = {
 
 const OrbitingIcon = ({ children, className, style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
   <div
-    className={`absolute text-primary opacity-60 ${className}`}
+    className={`absolute ${className}`}
     style={style}
   >
     {children}
@@ -38,7 +38,7 @@ export default function HeroAnimation({ heroAvatar, variant = 'default', childre
             <OrbitingIcon 
                 key={index}
                 className={cn(
-                    'animate-float text-accent',
+                    'animate-float text-foreground/20', // Changed color
                     {
                         'top-0 left-10': index === 0,
                         'top-0 right-10': index === 1,
@@ -46,7 +46,7 @@ export default function HeroAnimation({ heroAvatar, variant = 'default', childre
                         'bottom-0 right-20': index === 3,
                     }
                 )}
-                style={{ animationDelay: `${index * 0.8}s`, transform: 'scale(0.6)' }}
+                style={{ animationDelay: `${index * 0.8}s`, transform: 'scale(0.5)' }} // Made smaller
             >
                 {item.icon}
             </OrbitingIcon>
@@ -61,7 +61,7 @@ export default function HeroAnimation({ heroAvatar, variant = 'default', childre
       {icons.map((item, index) => (
         <OrbitingIcon 
           key={index}
-          className="animate-float"
+          className="animate-float text-primary opacity-60"
           style={{ 
             animationDelay: item.delay,
             top: item.top,
