@@ -50,7 +50,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="my-16 md:my-24 py-16 bg-card/50 rounded-2xl shadow-lg">
+      <section className="my-8 md:my-12 py-16 bg-card/50 rounded-2xl shadow-lg">
         <div className="grid grid-cols-1 items-center gap-12 px-8 md:px-16">
           <div className="md:col-span-2 text-center">
             <h2 className="font-headline text-5xl text-primary mb-4 tracking-wide">
