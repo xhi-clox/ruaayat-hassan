@@ -75,7 +75,7 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default', chil
       ))}
       
       <div className={cn(
-          "relative rounded-full overflow-hidden",
+          "relative rounded-full overflow-hidden bg-background/50",
            imageSize
       )}>
         {heroAvatarUrl && (

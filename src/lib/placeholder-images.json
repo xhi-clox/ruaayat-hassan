@@ -27,19 +27,19 @@
     {
       "id": "category-inking",
       "description": "Inking category thumbnail",
-      "imageUrl": "https://images.unsplash.com/photo-1662524518497-df3201ff76c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxpbmslMjBkcmF3aW5nfGVufDB8fHx8MTc2MTU2ODYzM3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1662524518497-df3201ff76c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxpbmslMjBkcmF3aW5nfGVufDB8fHx8MTc2MTU2ODYzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "ink drawing"
     },
     {
       "id": "category-pencil-sketches",
       "description": "Pencil sketches category thumbnail",
-      "imageUrl": "https://images.unsplash.com/photo-1602738328654-51ab2ae6c4ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZW5jaWwlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNDcyMTE1fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1602738328654-51ab2ae6c4ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZW5jaWwlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNDcyMTE1fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "pencil sketch"
     },
     {
       "id": "category-commissions",
       "description": "Commissions category thumbnail",
-      "imageUrl": "https://images.unsplash.com/photo-1601397210737-a5534480bdc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhcnQlMjBzdHVkaW98ZW58MHx8fHwxNzYxNTY1NzMzfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1601397210737-a5534480bdc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhcnQlMjBzdHVkaW98ZW58MHx8fHwxNzYxNTY1NzMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "art studio"
     },
     {
@@ -93,7 +93,7 @@
     {
       "id": "watercolor-2",
       "description": "Misty mountain landscape",
-      "imageUrl": "https://images.unsplash.com/photo-1604223190546-a43e4c7f29d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjE0NTY1NDl8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1604223190546-a43e4c7f29d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjE0NTY1NDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "mountain landscape"
     },
     {
