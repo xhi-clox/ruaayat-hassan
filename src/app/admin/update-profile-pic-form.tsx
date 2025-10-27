@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -18,7 +19,9 @@ import { User as UserIcon } from 'lucide-react';
 import type { UserProfile } from '@/lib/types';
 
 const profileSchema = z.object({
-  profileImage: z.instanceof(FileList).refine((files) => files.length === 1, 'A profile image is required.'),
+  profileImage: z
+    .any()
+    .refine((files) => files?.length === 1, 'A profile image is required.'),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -105,7 +108,7 @@ export default function UpdateProfilePicForm({ user, userProfile }: UpdateProfil
         <div className="space-y-2 flex-grow">
           <Label htmlFor="profileImage">Update Profile Picture</Label>
           <Input id="profileImage" type="file" accept="image/*" {...register('profileImage')} />
-          {errors.profileImage && <p className="text-destructive text-sm">{errors.profileImage.message}</p>}
+          {errors.profileImage && <p className="text-destructive text-sm">{(errors.profileImage as any)?.message}</p>}
         </div>
       </div>
       <Button type="submit" disabled={isSubmitting}>

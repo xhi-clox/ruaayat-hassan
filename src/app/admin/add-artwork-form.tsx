@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -22,8 +23,14 @@ const artworkSchema = z.object({
   medium: z.string().min(1, 'Medium is required'),
   date: z.string().min(1, 'Date is required'),
   description: z.string().min(1, 'Description is required'),
-  image: z.instanceof(FileList).refine((files) => files.length === 1, 'Image is required.'),
-  thumbnail: z.instanceof(FileList).refine((files) => files.length === 1, 'Thumbnail is required.'),
+  image: z
+    .any()
+    .refine((files) => files?.length === 1, 'Image is required.')
+    .refine((files) => files?.[0]?.size <= 5000000, `Max file size is 5MB.`),
+  thumbnail: z
+    .any()
+    .refine((files) => files?.length === 1, 'Thumbnail is required.')
+    .refine((files) => files?.[0]?.size <= 1000000, `Max file size is 1MB.`),
 });
 
 type ArtworkFormValues = z.infer<typeof artworkSchema>;
@@ -106,7 +113,7 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
       <div className="space-y-2">
         <Label htmlFor="title">Title</Label>
         <Input id="title" {...register('title')} />
-        {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+        {errors.title && <p className="text-destructive text-sm">{errors.title.message}</p>}
       </div>
 
       <div className="space-y-2">
@@ -123,38 +130,38 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
             ))}
           </SelectContent>
         </Select>
-        {errors.galleryId && <p className="text-red-500 text-sm">{errors.galleryId.message}</p>}
+        {errors.galleryId && <p className="text-destructive text-sm">{errors.galleryId.message}</p>}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="medium">Medium</Label>
           <Input id="medium" {...register('medium')} />
-          {errors.medium && <p className="text-red-500 text-sm">{errors.medium.message}</p>}
+          {errors.medium && <p className="text-destructive text-sm">{errors.medium.message}</p>}
         </div>
         <div className="space-y-2">
           <Label htmlFor="date">Date</Label>
           <Input id="date" type="date" {...register('date')} />
-          {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
+          {errors.date && <p className="text-destructive text-sm">{errors.date.message}</p>}
         </div>
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
         <Textarea id="description" {...register('description')} />
-        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+        {errors.description && <p className="text-destructive text-sm">{errors.description.message}</p>}
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="image">Artwork Image</Label>
+        <Label htmlFor="image">Artwork Image (Max 5MB)</Label>
         <Input id="image" type="file" accept="image/*" {...register('image')} />
-        {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
+        {errors.image && <p className="text-destructive text-sm">{(errors.image as any)?.message}</p>}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="thumbnail">Thumbnail Image</Label>
+        <Label htmlFor="thumbnail">Thumbnail Image (Max 1MB)</Label>
         <Input id="thumbnail" type="file" accept="image/*" {...register('thumbnail')} />
-        {errors.thumbnail && <p className="text-red-500 text-sm">{errors.thumbnail.message}</p>}
+        {errors.thumbnail && <p className="text-destructive text-sm">{(errors.thumbnail as any)?.message}</p>}
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
