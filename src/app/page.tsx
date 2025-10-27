@@ -36,8 +36,8 @@ export default function Home() {
         </p>
         <div className="mt-8 relative flex flex-col items-center">
             <HeroAnimation variant="small">
-                <Link href="#gallery" className="group inline-flex flex-col items-center text-accent hover:text-accent/80 transition-colors duration-300">
-                    <span className="font-bio text-3xl tracking-wider">See My Artworks</span>
+                <Link href="#gallery" className="group inline-flex flex-col items-center text-foreground/80 hover:text-foreground transition-colors duration-300">
+                    <span className="font-bio text-3xl tracking-wider text-accent">See My Artworks</span>
                     <ArrowDown className="mt-1 size-7 animate-bounce" />
                 </Link>
             </HeroAnimation>

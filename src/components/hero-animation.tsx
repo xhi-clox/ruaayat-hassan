@@ -21,7 +21,7 @@ const OrbitingIcon = ({ children, className, style }: { children: React.ReactNod
 );
 
 export default function HeroAnimation({ heroAvatar, variant = 'default', children }: HeroAnimationProps) {
-  const containerSize = variant === 'default' ? 'h-72 w-72 md:h-96 md:w-96' : 'h-32 w-80';
+  const containerSize = variant === 'default' ? 'h-72 w-72 md:h-96 md:w-96' : 'h-24 w-80';
   const imageSize = variant === 'default' ? 'h-64 w-64 md:h-80 md:w-80' : 'h-24 w-24';
 
   const icons = [
@@ -46,7 +46,7 @@ export default function HeroAnimation({ heroAvatar, variant = 'default', childre
                         'bottom-0 right-20': index === 3,
                     }
                 )}
-                style={{ animationDelay: `${index * 0.8}s`, transform: 'scale(0.5)' }} // Made smaller
+                style={{ animationDelay: `${index * 0.8}s`, transform: 'scale(0.4)' }} // Made smaller
             >
                 {item.icon}
             </OrbitingIcon>
