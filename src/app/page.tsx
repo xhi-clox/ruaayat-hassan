@@ -15,7 +15,7 @@ const categoryIcons: { [key: string]: React.ReactNode } = {
   'water-colour-paintings': <Palette className="size-8 text-accent" />,
   inking: <PenTool className="size-8 text-accent" />,
   'pencil-sketches': <Pencil className="size-8 text-accent" />,
-  commissions: <Handshake className="size-8 text.ts-accent" />,
+  commissions: <Handshake className="size-8 text-accent" />,
 };
 
 export default function Home() {
@@ -37,8 +37,8 @@ export default function Home() {
         <div className="mt-8 relative flex flex-col items-center">
             <HeroAnimation variant="small">
                 <Link href="#gallery" className="group inline-flex flex-col items-center text-foreground/80 hover:text-foreground transition-colors duration-300">
-                    <span className="font-bio text-3xl tracking-wider text-accent">See My Artworks</span>
-                    <ArrowDown className="mt-1 size-7 animate-bounce" />
+                    <span className="font-bio text-3xl tracking-wider text-primary">See My Artworks</span>
+                    <ArrowDown className="mt-1 size-7 animate-bounce text-primary" />
                 </Link>
             </HeroAnimation>
         </div>
