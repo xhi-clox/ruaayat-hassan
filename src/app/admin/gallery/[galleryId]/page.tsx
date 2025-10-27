@@ -10,6 +10,7 @@ import AddArtworkForm from '../../add-artwork-form';
 import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import UpdateGalleryThumbnailForm from './update-gallery-thumbnail-form';
 
 export default function AdminGalleryPage() {
   const params = useParams();
@@ -47,12 +48,12 @@ export default function AdminGalleryPage() {
       <div className="flex justify-between items-start mb-8">
         <div>
             <h1 className="font-headline text-4xl">{gallery.name}</h1>
-            <p className="text-muted-foreground mt-2">Manage artworks in this gallery.</p>
+            <p className="text-muted-foreground mt-2">Manage artworks and settings for this gallery.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-8">
             <Card>
                 <CardHeader>
                     <CardTitle>Existing Artworks</CardTitle>
@@ -83,14 +84,23 @@ export default function AdminGalleryPage() {
                     </div>
                 </CardContent>
             </Card>
-        </div>
-        <div>
+
             <Card>
                 <CardHeader>
                     <CardTitle>Add New Artwork</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <AddArtworkForm galleries={allGalleries} defaultGalleryId={galleryId} />
+                </CardContent>
+            </Card>
+        </div>
+        <div>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Update Gallery Thumbnail</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <UpdateGalleryThumbnailForm gallery={gallery} />
                 </CardContent>
             </Card>
         </div>

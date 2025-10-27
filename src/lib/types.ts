@@ -1,3 +1,4 @@
+
 export type Category = {
   id: string;
   name: string;
@@ -8,6 +9,7 @@ export type Gallery = {
   id: string;
   name: string;
   slug: string;
+  thumbnailUrl?: string;
 };
 
 export type Artwork = {

@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "user": {
@@ -38,6 +39,11 @@
         "slug": {
           "type": "string",
           "description": "The slug for the gallery URL."
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL of the gallery's thumbnail image."
         }
       },
       "required": ["name", "slug"]

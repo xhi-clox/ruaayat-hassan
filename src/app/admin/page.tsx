@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useUser } from '@/firebase';
@@ -11,6 +12,7 @@ import { useEffect } from 'react';
 import { useAuth, useDoc, useCollection } from '@/firebase';
 import type { Gallery } from '@/lib/types';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AdminPage() {
   const { user, loading: userLoading } = useUser();
@@ -67,13 +69,24 @@ export default function AdminPage() {
             </CardHeader>
             <CardContent>
               {galleries && galleries.length > 0 ? (
-                <ul className="space-y-2">
+                <ul className="space-y-4">
                   {galleries.map((gallery) => (
-                    <li key={gallery.id} className="flex justify-between items-center p-3 bg-secondary rounded-md">
-                      <span className="font-semibold">{gallery.name}</span>
+                    <li key={gallery.id} className="flex items-center gap-4 p-3 bg-secondary rounded-md">
+                        <div className="relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-md border">
+                            {gallery.thumbnailUrl ? (
+                                <Image src={gallery.thumbnailUrl} alt={gallery.name} fill className="object-cover" />
+                            ) : (
+                                <div className="flex h-full w-full items-center justify-center bg-muted text-xs text-muted-foreground">
+                                    No Thumb
+                                </div>
+                            )}
+                        </div>
+                      <div className="flex-grow">
+                        <span className="font-semibold">{gallery.name}</span>
+                      </div>
                        <Button asChild variant="outline" size="sm">
                         <Link href={`/admin/gallery/${gallery.id}`}>
-                          View Artworks
+                          Manage
                         </Link>
                       </Button>
                     </li>
