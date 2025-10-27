@@ -38,7 +38,7 @@ export default function HeroAnimation({ heroAvatar, variant = 'default', childre
             <OrbitingIcon 
                 key={index}
                 className={cn(
-                    'animate-float',
+                    'animate-float text-accent',
                     {
                         'top-0 left-10': index === 0,
                         'top-0 right-10': index === 1,

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowDown, ArrowRight, Palette, PenTool, Pencil, Handshake, UserRound, TabletSmartphone, Facebook, Instagram, Twitter, Youtube, Sparkles, Paintbrush, Wand } from 'lucide-react';
+import { ArrowDown, ArrowRight, Palette, PenTool, Pencil, Handshake, UserRound, TabletSmartphone, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
@@ -22,7 +22,7 @@ export default function Home() {
   const heroAvatar = PlaceHolderImages.find(p => p.id === 'hero-avatar');
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-16">
+    <div className="container mx-auto px-4">
       <section className="flex flex-col items-center text-center pt-8 md:pt-12 pb-16 md:pb-24 relative overflow-hidden">
         {heroAvatar && <HeroAnimation heroAvatar={heroAvatar} />}
         <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl tracking-wider mt-4">
@@ -36,7 +36,7 @@ export default function Home() {
         </p>
         <div className="mt-8 relative flex flex-col items-center">
             <HeroAnimation variant="small">
-                <Link href="#gallery" className="group inline-flex flex-col items-center text-primary/80 hover:text-primary transition-colors duration-300">
+                <Link href="#gallery" className="group inline-flex flex-col items-center text-accent hover:text-accent/80 transition-colors duration-300">
                     <span className="font-bio text-3xl tracking-wider">See My Artworks</span>
                     <ArrowDown className="mt-1 size-7 animate-bounce" />
                 </Link>
@@ -77,7 +77,6 @@ export default function Home() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {CATEGORIES.map((category) => {
-            if (category.slug === 'commissions') return null;
             const image = PlaceHolderImages.find(p => p.id === `category-${category.slug}`);
             return (
               <Link href={`/gallery/${category.slug}`} key={category.slug} className="group block">

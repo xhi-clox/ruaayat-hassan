@@ -19,6 +19,7 @@ export const CATEGORIES: Category[] = [
   { name: 'Water Colour Paintings', slug: 'water-colour-paintings' },
   { name: 'Inking', slug: 'inking' },
   { name: 'Pencil Sketches', slug: 'pencil-sketches' },
+  { name: 'Commissions', slug: 'commissions' },
 ];
 
 export const ARTWORKS: Artwork[] = [
