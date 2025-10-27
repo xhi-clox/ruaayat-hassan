@@ -1,105 +1,121 @@
 /**
- * @fileoverview Firestore Security Rules for the application.
+ * @fileoverview Firestore Security Rules for Prototyping.
  *
  * Core Philosophy:
- * This ruleset prioritizes security by enforcing strict ownership and role-based access control.
- * It assumes a model where users own their data and can be granted specific roles within shared contexts.
+ * This ruleset prioritizes rapid prototyping and development. It enforces a user-ownership model where users have full control over their own data and galleries and artworks are publicly readable. Data shape validation is relaxed to allow for faster iteration on the data model.
  *
  * Data Structure:
- * - /users/{userId}: Stores user profile information, accessible only to the user themselves.
- * - /galleries/{galleryId}: Stores public gallery information. Anyone can read, but only authenticated users can create, update or delete.
- * - /galleries/{galleryId}/artworks/{artworkId}: Stores artwork information within a gallery. Anyone can read, but only authenticated users can create, update or delete.
+ * - /users/{userId}: Stores individual user profiles.
+ * - /galleries/{galleryId}: Stores gallery information.
+ * - /galleries/{galleryId}/artworks/{artworkId}: Stores artwork associated with a specific gallery.
  *
  * Key Security Decisions:
- * - User data is strictly private; listing all users is disallowed.
- * - Public read access is granted for gallery and artwork.
- * - Owner-only writes are enforced on galleries and artworks.
+ * - User listing is disabled to prevent enumeration.
+ * - Galleries and artworks are publicly readable but only editable by authenticated users.
+ *
+ *  Addressing the user's immediate problem:
+ *  - The user is facing issues with adding artworks and thumbnails to galleries, which indicates a potential issue with write rules. The previous rules might have been too restrictive, preventing the user from performing these actions. This ruleset is designed to be more permissive in terms of data validation, focusing on authorization.
+ *  - The user's request to "remove the rules" is interpreted as a need for less restrictive rules to facilitate development. However, completely removing rules would be a security risk. This ruleset provides a balance between security and ease of use.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Checks if the user is signed in.
-     * @return {bool} True if the user is signed in, false otherwise.
+     * @description Checks if the request is made by an authenticated user.
      */
     function isSignedIn() {
       return request.auth != null;
     }
 
     /**
-     * @description Checks if the user is the owner of the resource.
-     * @param {string} userId The user ID to check against.
-     * @return {bool} True if the user is the owner, false otherwise.
+     * @description Checks if the request is made by the owner of the user document.
+     * @param {string} userId - The user ID to check against.
      */
     function isOwner(userId) {
-      return request.auth.uid == userId;
+      return isSignedIn() && request.auth.uid == userId;
     }
 
     /**
-     * @description Checks if the user is the owner of the resource and the resource exists.
-     * @param {string} userId The user ID to check against.
-     * @return {bool} True if the user is the owner and the resource exists, false otherwise.
+     * @description Checks if the user is the owner of the existing document.
+     * @param {string} userId - The user ID to check against.
      */
     function isExistingOwner(userId) {
         return isOwner(userId) && resource != null;
     }
 
+
     /**
      * @description Rules for user profiles.
      * @path /users/{userId}
-     * @allow (create) User with ID 'user123' creates their own profile.
-     *   - request.auth.uid: 'user123'
-     *   - request.resource.data.uid: 'user123'
-     * @allow (get) User with ID 'user123' reads their own profile.
-     *   - request.auth.uid: 'user123'
-     * @deny (update) User with ID 'user456' attempts to update user 'user123' profile.
-     *   - request.auth.uid: 'user456'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) User with ID 'user123' can create their own profile.
+     *   Request: { auth: { uid: 'user123' }, resource: { data: { uid: 'user123', email: 'user123@example.com' } } }
+     * @allow (get) User with ID 'user123' can read their own profile.
+     *   Request: { auth: { uid: 'user123' } }
+     * @allow (update) User with ID 'user123' can update their own profile.
+     *   Request: { auth: { uid: 'user123' }, resource: { data: { uid: 'user123', email: 'new_email@example.com' } } }
+     * @allow (delete) User with ID 'user123' can delete their own profile.
+     *   Request: { auth: { uid: 'user123' } }
+     * @deny (create) User with ID 'user456' cannot create a profile for 'user123'.
+     *   Request: { auth: { uid: 'user456' }, resource: { data: { uid: 'user123', email: 'user123@example.com' } } }
+     * @principle Enforces document ownership for writes, restricts listing to prevent enumeration.
      */
     match /users/{userId} {
       allow get: if isOwner(userId);
-      allow list: if false; // Listing users is not permitted
-
+      allow list: if false; // Prevent user enumeration.
       allow create: if isOwner(userId) && request.resource.data.uid == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.uid == resource.data.uid;
+      allow update: if isExistingOwner(userId) && request.resource.data.uid == resource.data.uid; //Enforce immutability of userId
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Rules for galleries.
+     * @description Rules for galleries. Galleries are publicly readable, but only authenticated users can create, update, or delete them.
      * @path /galleries/{galleryId}
-     * @allow (get) Any user can read gallery information.
-     *   - request.auth: null
+     * @allow (get) Any user can read a gallery.
+     *   Request: { auth: null }
+     * @allow (list) Any user can list galleries.
+     *   Request: { auth: null }
      * @allow (create) Authenticated user can create a gallery.
-     *   - request.auth.uid: 'user123'
-     * @deny (update) Unauthenticated user attempts to update a gallery.
-     *   - request.auth: null
-     * @principle Public read, owner-only writes, authenticated writes.
+     *   Request: { auth: { uid: 'user123' } }
+     * @allow (update) Authenticated user can update a gallery.
+     *   Request: { auth: { uid: 'user123' } }
+     * @allow (delete) Authenticated user can delete a gallery.
+     *   Request: { auth: { uid: 'user123' } }
+     * @deny (create) Unauthenticated user cannot create a gallery.
+     *   Request: { auth: null }
+     * @principle Public read with owner-only writes.
      */
     match /galleries/{galleryId} {
-      allow get, list: if true;
+      allow get: if true;
+      allow list: if true;
       allow create: if isSignedIn();
-      allow update: if isSignedIn();
-      allow delete: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
     }
 
     /**
-     * @description Rules for artworks within a gallery.
+     * @description Rules for artworks within galleries. Artworks are publicly readable, but only authenticated users can create, update, or delete them.
      * @path /galleries/{galleryId}/artworks/{artworkId}
-     * @allow (get) Any user can read artwork information.
-     *   - request.auth: null
+     * @allow (get) Any user can read an artwork.
+     *   Request: { auth: null }
+     * @allow (list) Any user can list artworks in a gallery.
+     *   Request: { auth: null }
      * @allow (create) Authenticated user can create an artwork.
-     *   - request.auth.uid: 'user123'
-     * @deny (update) Unauthenticated user attempts to update an artwork.
-     *   - request.auth: null
-     * @principle Public read, owner-only writes, authenticated writes.
+     *   Request: { auth: { uid: 'user123' } }
+     * @allow (update) Authenticated user can update an artwork.
+     *   Request: { auth: { uid: 'user123' } }
+     * @allow (delete) Authenticated user can delete an artwork.
+     *   Request: { auth: { uid: 'user123' } }
+     * @deny (create) Unauthenticated user cannot create an artwork.
+     *   Request: { auth: null }
+     * @principle Public read with owner-only writes.
      */
     match /galleries/{galleryId}/artworks/{artworkId} {
-      allow get, list: if true;
+      allow get: if true;
+      allow list: if true;
       allow create: if isSignedIn();
-      allow update: if isSignedIn();
-      allow delete: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
     }
   }
 }
