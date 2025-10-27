@@ -9,18 +9,20 @@ const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT
   ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
   : undefined;
 
-if (!serviceAccount) {
+let app;
+if (serviceAccount) {
+  app =
+    getApps().length > 0
+      ? getApp()
+      : initializeApp({
+          credential: cert(serviceAccount),
+          databaseURL: `https://${firebaseConfig.projectId}.firebaseio.com`,
+        });
+} else {
     console.warn('Firebase service account key not found. Server-side Firebase features will be disabled.');
 }
 
-const app =
-  getApps().length > 0
-    ? getApp()
-    : initializeApp({
-        credential: serviceAccount ? cert(serviceAccount) : undefined,
-        databaseURL: `https://${firebaseConfig.projectId}.firebaseio.com`,
-      });
 
-const db = getFirestore(app);
+const db = app ? getFirestore(app) : undefined;
 
 export { db };
