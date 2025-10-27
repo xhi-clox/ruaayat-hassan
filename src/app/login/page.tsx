@@ -4,75 +4,115 @@ import { useState } from 'react';
 import { useAuth } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
-import { Chrome } from 'lucide-react';
-
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState(true); // To toggle between sign-in and sign-up
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { app } = useAuth();
   const firestore = useFirestore();
 
-  const handleGoogleSignIn = async () => {
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError(null);
-    setIsSigningIn(true);
+    setIsLoading(true);
 
     if (!app || !firestore) {
       setError("Firebase is not initialized.");
-      setIsSigningIn(false);
+      setIsLoading(false);
       return;
     }
     const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      if (isSigningIn) {
+        // Handle Sign In
+        await signInWithEmailAndPassword(auth, email, password);
+        router.push('/admin');
+      } else {
+        // Handle Sign Up
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-      // Create or update user document in Firestore
-      const userDocRef = doc(firestore, 'users', user.uid);
-      await setDoc(userDocRef, {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-      }, { merge: true });
-
-      router.push('/admin');
+        // Create user document in Firestore
+        const userDocRef = doc(firestore, 'users', user.uid);
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.email, // Default display name
+          photoURL: '', // Default photo URL
+        }, { merge: true });
+        
+        router.push('/admin');
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setIsSigningIn(false);
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-16 flex justify-center items-center">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="font-headline text-3xl text-center">
-            Admin Login
+        <CardHeader className="text-center">
+          <CardTitle className="font-headline text-3xl">
+            {isSigningIn ? 'Admin Login' : 'Create Admin Account'}
           </CardTitle>
+          <CardDescription>
+            {isSigningIn ? 'Enter your credentials to access the dashboard.' : 'Fill out the form to create a new account.'}
+          </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col items-center justify-center space-y-6">
-          <p className="text-muted-foreground text-center">
-            Sign in with your Google account to access the admin dashboard.
-          </p>
-          <Button 
-            onClick={handleGoogleSignIn} 
-            disabled={isSigningIn}
-            className="w-full" 
-            size="lg"
-          >
-            <Chrome className="mr-2 h-5 w-5" />
-            {isSigningIn ? 'Signing In...' : 'Sign in with Google'}
-          </Button>
-          {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+        <CardContent>
+          <form onSubmit={handleAuth} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="admin@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+            <Button type="submit" disabled={isLoading} className="w-full" size="lg">
+              {isLoading ? 'Loading...' : (isSigningIn ? 'Login' : 'Sign Up')}
+            </Button>
+          </form>
+          <div className="mt-6 text-center text-sm">
+            {isSigningIn ? "Don't have an account?" : "Already have an account?"}
+            <Button
+              variant="link"
+              onClick={() => {
+                setIsSigningIn(!isSigningIn);
+                setError(null);
+              }}
+              className="font-semibold"
+            >
+              {isSigningIn ? 'Sign Up' : 'Login'}
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
