@@ -13,6 +13,7 @@ import { useAuth, useDoc, useCollection } from '@/firebase';
 import type { Gallery } from '@/lib/types';
 import Link from 'next/link';
 import Image from 'next/image';
+import SeedDatabase from './seed-database';
 
 export default function AdminPage() {
   const { user, loading: userLoading } = useUser();
@@ -93,13 +94,22 @@ export default function AdminPage() {
                   ))}
                 </ul>
               ) : (
-                <p>No galleries found. Create one to get started.</p>
+                <p>No galleries found. Create one or seed the database.</p>
               )}
             </CardContent>
           </Card>
         </div>
         
         <div className="space-y-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Seed Initial Data</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <SeedDatabase />
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Create New Gallery</CardTitle>
