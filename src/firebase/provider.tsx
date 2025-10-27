@@ -33,6 +33,12 @@ export const useFirebase = () => {
   return context;
 };
 
-export const useFirebaseApp = () => useFirebase().app;
+export const useFirebaseApp = () => {
+    const context = useContext(FirebaseContext);
+    if (context === undefined) {
+        throw new Error('useFirebaseApp must be used within a FirebaseProvider');
+    }
+    return context;
+};
 export const useAuth = () => useFirebase();
 export const useFirestore = () => useFirebase().firestore;
