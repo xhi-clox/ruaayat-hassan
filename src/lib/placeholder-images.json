@@ -27,13 +27,13 @@
     {
       "id": "category-inking",
       "description": "Inking category thumbnail",
-      "imageUrl": "https://images.unsplash.com/photo-1662524518497-df3201ff76c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxpbmslMjBkcmF3aW5nfGVufDB8fHx8MTc2MTU2ODYzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1662524518497-df3201ff76c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxpbmslMjBkcmF3aW5nfGVufDB8fHx8MTc2MTU2ODYzM3ww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "ink drawing"
     },
     {
       "id": "category-pencil-sketches",
       "description": "Pencil sketches category thumbnail",
-      "imageUrl": "https://images.unsplash.com/photo-1602738328654-51ab2ae6c4ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZW5jaWwlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNDcyMTE1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1602738328654-51ab2ae6c4ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZW5jaWwlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNDcyMTE1fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "pencil sketch"
     },
     {
@@ -57,7 +57,7 @@
     {
       "id": "digital-art-3",
       "description": "Surreal landscape",
-      "imageUrl": "https://images.unsplash.com/photo-1652615676468-f18e80a5fe7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdXJyZWFsJTIwbGFuZHNjYXBlfGVufDB8fHx8MTc2MTUxMzQzMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1652615676468-f18e80a5fe7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdXJyZWFsJTIwbGFuZHNjYXBlfGVufDB8fHx8MTc2MTUxMzQzMnww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "surreal landscape"
     },
     {
@@ -69,7 +69,7 @@
     {
       "id": "realism-1",
       "description": "Detailed eye portrait",
-      "imageUrl": "https://images.unsplash.com/photo-1707167144685-6e83ca79c483?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZWFsaXN0aWMlMjBleWV8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1707167144685-6e83ca79c483?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZWFsaXN0aWMlMjBleWV8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "realistic eye"
     },
     {
