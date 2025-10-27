@@ -35,12 +35,10 @@ export default function Home() {
           Hi, I’m RUBAYAT, an 18-year-old artist who loves creating both digitally and traditionally. I work with digital art, inking, and painting — whatever helps bring my ideas to life. My style is a mix of mood, character, and a bit of pop culture. Sometimes it’s clean, sometimes messy — but always personal. I’m still growing, still experimenting, and always making something that feels true to me.
         </p>
         <div className="mt-8">
-          <Button asChild size="lg">
-            <Link href="#gallery">
-              See My Artworks
-              <ArrowDown className="ml-2 size-5" />
-            </Link>
-          </Button>
+          <Link href="#gallery" className="group inline-flex flex-col items-center text-foreground/80 hover:text-primary transition-colors duration-300">
+            <span className="font-bio text-2xl tracking-wider">See My Artworks</span>
+            <ArrowDown className="mt-1 size-7 animate-bounce" />
+          </Link>
         </div>
         <div className="mt-8 flex items-center gap-4">
             <Link href="#" aria-label="Facebook" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
