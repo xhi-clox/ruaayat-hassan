@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AddArtworkForm from './add-artwork-form';
+import CreateGalleryForm from './create-gallery-form';
 import type { Gallery } from '@/lib/types';
 
 export default function AdminPage() {
@@ -44,14 +45,44 @@ export default function AdminPage() {
             <CardTitle>Add New Artwork</CardTitle>
           </CardHeader>
           <CardContent>
-            {galleries ? (
+            {galleries && galleries.length > 0 ? (
               <AddArtworkForm galleries={galleries} />
             ) : (
-              <p>No galleries found. Please add a gallery first.</p>
+              <p>Please create a gallery first before adding artwork.</p>
             )}
           </CardContent>
         </Card>
-        {/* We can add more admin components here, like "Add Gallery" */}
+        
+        <div className="space-y-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Create New Gallery</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CreateGalleryForm />
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Existing Galleries</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {galleries && galleries.length > 0 ? (
+                <ul className="space-y-2">
+                  {galleries.map((gallery) => (
+                    <li key={gallery.id} className="flex justify-between items-center p-2 bg-secondary rounded-md">
+                      <span>{gallery.name}</span>
+                      {/* Edit/Delete buttons can be added here in the future */}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No galleries found.</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
