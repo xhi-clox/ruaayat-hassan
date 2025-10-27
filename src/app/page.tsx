@@ -35,26 +35,18 @@ export default function Home() {
           Hi, I’m RUBAYAT, an 18-year-old artist who loves creating both digitally and traditionally. I work with digital art, inking, and painting — whatever helps bring my ideas to life. My style is a mix of mood, character, and a bit of pop culture. Sometimes it’s clean, sometimes messy — but always personal. I’m still growing, still experimenting, and always making something that feels true to me.
         </p>
         <div className="mt-8 flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="#" aria-label="Facebook">
-              <Facebook className="h-6 w-6" />
+            <Link href="#" aria-label="Facebook" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+              <Facebook className="h-8 w-8 transition-all" />
             </Link>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="#" aria-label="Instagram">
-              <Instagram className="h-6 w-6" />
+            <Link href="#" aria-label="Instagram" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+              <Instagram className="h-8 w-8 transition-all" />
             </Link>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="#" aria-label="X / Twitter">
-              <Twitter className="h-6 w-6" />
+            <Link href="#" aria-label="X / Twitter" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+              <Twitter className="h-8 w-8 transition-all" />
             </Link>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="#" aria-label="YouTube">
-              <Youtube className="h-6 w-6" />
+            <Link href="#" aria-label="YouTube" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+              <Youtube className="h-8 w-8 transition-all" />
             </Link>
-          </Button>
         </div>
       </section>
 
