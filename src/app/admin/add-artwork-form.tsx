@@ -42,7 +42,7 @@ type AddArtworkFormProps = {
 };
 
 export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtworkFormProps) {
-  const app = useFirebaseApp();
+  const { app } = useFirebaseApp();
   const firestore = useFirestore();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,7 +53,6 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
     formState: { errors },
     reset,
     setValue,
-    control,
   } = useForm<ArtworkFormValues>({
     resolver: zodResolver(artworkSchema),
     defaultValues: {
@@ -74,57 +73,65 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
     }
 
     setIsSubmitting(true);
-    
+
+    let imageUrl = '';
+    let thumbnailUrl = '';
+
     try {
-        const storage = getStorage(app);
-        
-        const imageUrl = await uploadImage(storage, data.image[0], 'artworks');
-        const thumbnailUrl = await uploadImage(storage, data.thumbnail[0], 'thumbnails');
+      // Step 1: Upload images first
+      const storage = getStorage(app);
+      imageUrl = await uploadImage(storage, data.image[0], 'artworks');
+      thumbnailUrl = await uploadImage(storage, data.thumbnail[0], 'thumbnails');
 
-        const galleryRefPath = `galleries/${data.galleryId}/artworks`;
-        const artworkData = {
-            title: data.title,
-            date: data.date,
-            medium: data.medium,
-            description: data.description,
-            galleryId: data.galleryId,
-            categorySlug: galleries.find(g => g.id === data.galleryId)?.slug || '',
-            imageUrl: imageUrl,
-            thumbnailUrl: thumbnailUrl,
-            imageUrlId: `artwork-${Date.now()}` 
-        };
+      // Step 2: Prepare data for Firestore
+      const galleryRefPath = `galleries/${data.galleryId}/artworks`;
+      const artworkData = {
+          title: data.title,
+          date: data.date,
+          medium: data.medium,
+          description: data.description,
+          galleryId: data.galleryId,
+          categorySlug: galleries.find(g => g.id === data.galleryId)?.slug || '',
+          imageUrl: imageUrl,
+          thumbnailUrl: thumbnailUrl,
+          imageUrlId: `artwork-${Date.now()}` 
+      };
 
-        const docRef = collection(firestore, galleryRefPath);
-        await addDoc(docRef, artworkData);
-
-        toast({
-            title: 'Artwork Added!',
-            description: `${data.title} has been successfully uploaded.`,
+      // Step 3: Add document to Firestore using the non-blocking pattern
+      addDoc(collection(firestore, galleryRefPath), artworkData)
+        .then(() => {
+          toast({
+              title: 'Artwork Added!',
+              description: `${data.title} has been successfully uploaded.`,
+          });
+          reset();
+          if (defaultGalleryId) {
+              setValue('galleryId', defaultGalleryId);
+          }
+        })
+        .catch(async (serverError) => {
+           // This is the correct way to handle permission errors for this app
+           const permissionError = new FirestorePermissionError({
+              path: `galleries/${data.galleryId}/artworks`,
+              operation: 'create',
+              requestResourceData: artworkData,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+        })
+        .finally(() => {
+          // This will always run, un-sticking the UI
+          setIsSubmitting(false);
         });
-        reset();
-            if (defaultGalleryId) {
-            setValue('galleryId', defaultGalleryId);
-        }
 
     } catch (error: any) {
-        console.error('Error adding artwork:', error);
-        
-        if (error.code && (error.code.includes('permission-denied') || error.code.includes('unauthenticated'))) {
-             const permissionError = new FirestorePermissionError({
-                path: `galleries/${data.galleryId}/artworks`,
-                operation: 'create',
-                requestResourceData: data,
-            });
-            errorEmitter.emit('permission-error', permissionError);
-        } else {
-            toast({
-                variant: 'destructive',
-                title: 'Upload Failed',
-                description: error.message || 'An unexpected error occurred.',
-            });
-        }
-    } finally {
-        setIsSubmitting(false);
+      // This outer catch handles failures from image uploads
+      console.error('Error during image upload:', error);
+      toast({
+          variant: 'destructive',
+          title: 'Upload Failed',
+          description: error.message || 'Could not upload images.',
+      });
+      setIsSubmitting(false); // Ensure submission state is reset on upload failure
     }
   };
 
