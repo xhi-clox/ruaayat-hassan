@@ -43,19 +43,22 @@ export default function Home() {
                 </Link>
             </HeroAnimation>
         </div>
-        <div className="mt-8 flex items-center gap-4">
-            <Link href="#" aria-label="Facebook" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
-              <Facebook className="h-8 w-8 transition-all" />
-            </Link>
-            <Link href="#" aria-label="Instagram" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
-              <Instagram className="h-8 w-8 transition-all" />
-            </Link>
-            <Link href="#" aria-label="X / Twitter" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
-              <Twitter className="h-8 w-8 transition-all" />
-            </Link>
-            <Link href="#" aria-label="YouTube" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
-              <Youtube className="h-8 w-8 transition-all" />
-            </Link>
+        <div className="mt-12 flex flex-col items-center gap-2">
+            <p className="text-sm text-foreground/60 mb-2">Follow me on social media</p>
+            <div className="flex items-center gap-4">
+                <Link href="#" aria-label="Facebook" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+                  <Facebook className="h-8 w-8 transition-all" />
+                </Link>
+                <Link href="#" aria-label="Instagram" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+                  <Instagram className="h-8 w-8 transition-all" />
+                </Link>
+                <Link href="#" aria-label="X / Twitter" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+                  <Twitter className="h-8 w-8 transition-all" />
+                </Link>
+                <Link href="#" aria-label="YouTube" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+                  <Youtube className="h-8 w-8 transition-all" />
+                </Link>
+            </div>
         </div>
       </section>
 
