@@ -23,6 +23,7 @@ const artworkSchema = z.object({
   date: z.string().min(1, 'Date is required'),
   description: z.string().min(1, 'Description is required'),
   image: z.instanceof(FileList).refine((files) => files.length === 1, 'Image is required.'),
+  thumbnail: z.instanceof(FileList).refine((files) => files.length === 1, 'Thumbnail is required.'),
 });
 
 type ArtworkFormValues = z.infer<typeof artworkSchema>;
@@ -47,6 +48,12 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
   } = useForm<ArtworkFormValues>({
     resolver: zodResolver(artworkSchema),
   });
+  
+  const uploadImage = async (storage: any, imageFile: File) => {
+    const storageRef = ref(storage, `artworks/${Date.now()}_${imageFile.name}`);
+    const uploadResult = await uploadBytes(storageRef, imageFile);
+    return await getDownloadURL(uploadResult.ref);
+  }
 
   const onSubmit = async (data: ArtworkFormValues) => {
     if (!firestore || !app) {
@@ -56,14 +63,10 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
 
     setIsSubmitting(true);
     try {
-      const imageFile = data.image[0];
       const storage = getStorage(app);
-      const storageRef = ref(storage, `artworks/${Date.now()}_${imageFile.name}`);
-
-      // Upload file
-      const uploadResult = await uploadBytes(storageRef, imageFile);
-      const imageUrl = await getDownloadURL(uploadResult.ref);
-      const thumbnailUrl = imageUrl; // For now, use the same image for thumbnail
+      
+      const imageUrl = await uploadImage(storage, data.image[0]);
+      const thumbnailUrl = await uploadImage(storage, data.thumbnail[0]);
 
       // Save artwork data to Firestore
       const artworkData = {
@@ -146,6 +149,12 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
         <Label htmlFor="image">Artwork Image</Label>
         <Input id="image" type="file" accept="image/*" {...register('image')} />
         {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="thumbnail">Thumbnail Image</Label>
+        <Input id="thumbnail" type="file" accept="image/*" {...register('thumbnail')} />
+        {errors.thumbnail && <p className="text-red-500 text-sm">{errors.thumbnail.message}</p>}
       </div>
 
       <Button type="submit" disabled={isSubmitting}>

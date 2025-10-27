@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AddArtworkForm from './add-artwork-form';
 import CreateGalleryForm from './create-gallery-form';
+import UpdateProfilePicForm from './update-profile-pic-form';
 import type { Gallery } from '@/lib/types';
 
 export default function AdminPage() {
@@ -63,6 +64,15 @@ export default function AdminPage() {
             </CardContent>
           </Card>
           
+          <Card>
+            <CardHeader>
+              <CardTitle>Manage Profile</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UpdateProfilePicForm user={user} />
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Existing Galleries</CardTitle>

@@ -2,11 +2,10 @@
 
 import Image from 'next/image';
 import { Droplets, Palette, PenTool, Sparkles } from 'lucide-react';
-import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
 
 type HeroAnimationProps = {
-  heroAvatar?: ImagePlaceholder;
+  heroAvatarUrl?: string | null;
   variant?: 'default' | 'small';
   children?: React.ReactNode;
 };
@@ -20,7 +19,7 @@ const OrbitingIcon = ({ children, className, style }: { children: React.ReactNod
   </div>
 );
 
-export default function HeroAnimation({ heroAvatar, variant = 'default', children }: HeroAnimationProps) {
+export default function HeroAnimation({ heroAvatarUrl, variant = 'default', children }: HeroAnimationProps) {
   const containerSize = variant === 'default' ? 'h-72 w-72 md:h-96 md:w-96' : 'h-24 w-80';
   const imageSize = variant === 'default' ? 'h-64 w-64 md:h-80 md:w-80' : 'h-24 w-24';
 
@@ -74,15 +73,15 @@ export default function HeroAnimation({ heroAvatar, variant = 'default', childre
         </OrbitingIcon>
       ))}
       
-      {heroAvatar && (
+      {heroAvatarUrl && (
         <div className={cn("relative rounded-full overflow-hidden shadow-2xl shadow-primary/20", imageSize)}>
           <Image
-            src={heroAvatar.imageUrl}
-            alt={heroAvatar.description}
+            src={heroAvatarUrl}
+            alt={"Rubayat Hassan's avatar"}
             fill
             priority
             sizes="(max-width: 768px) 50vw, 33vw"
-            data-ai-hint={heroAvatar.imageHint}
+            data-ai-hint={"anime avatar"}
             className="object-cover"
           />
         </div>

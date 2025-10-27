@@ -1,13 +1,19 @@
+
+'use client'
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Palette, PenTool, Pencil, Handshake, UserRound, TabletSmartphone, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import { useDoc } from '@/firebase';
 
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { CATEGORIES } from '@/lib/data';
 import HeroAnimation from '@/components/hero-animation';
+import type { UserProfile } from '@/lib/types';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+
 
 const categoryIcons: { [key: string]: React.ReactNode } = {
   'digital-arts': <TabletSmartphone className="size-8 text-accent" />,
@@ -19,13 +25,13 @@ const categoryIcons: { [key: string]: React.ReactNode } = {
 };
 
 export default function Home() {
-  const heroAvatar = PlaceHolderImages.find(p => p.id === 'hero-avatar');
+  const { data: userProfile } = useDoc<UserProfile>('users/admin'); // Assuming 'admin' is the user ID for simplicity.
   const galleryCategories = CATEGORIES.filter(c => c.slug !== 'commissions');
 
   return (
     <div className="container mx-auto px-4">
       <section className="flex flex-col items-center text-center pt-8 md:pt-12 pb-16 md:pb-24 relative overflow-hidden">
-        {heroAvatar && <HeroAnimation heroAvatar={heroAvatar} />}
+        {userProfile && <HeroAnimation heroAvatarUrl={userProfile.photoURL} />}
         <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl tracking-wider mt-4">
           RUBAYAT HASSAN
         </h1>
