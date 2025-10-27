@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -73,19 +74,22 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default', chil
         </OrbitingIcon>
       ))}
       
-      {heroAvatarUrl && (
-        <div className={cn("relative rounded-full overflow-hidden shadow-2xl shadow-primary/20", imageSize)}>
-          <Image
-            src={heroAvatarUrl}
-            alt={"Rubayat Hassan's avatar"}
-            fill
-            priority
-            sizes="(max-width: 768px) 50vw, 33vw"
-            data-ai-hint={"anime artist"}
-            className="object-cover"
-          />
-        </div>
-      )}
+      <div className={cn(
+          "relative rounded-full overflow-hidden bg-background/50",
+           imageSize
+      )}>
+        {heroAvatarUrl && (
+            <Image
+                src={heroAvatarUrl}
+                alt={"Rubayat Hassan's avatar"}
+                fill
+                priority
+                sizes="(max-width: 768px) 50vw, 33vw"
+                data-ai-hint={"anime artist"}
+                className="object-cover"
+            />
+        )}
+      </div>
       {children}
     </div>
   );
