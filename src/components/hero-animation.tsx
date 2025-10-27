@@ -81,7 +81,7 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default', chil
             fill
             priority
             sizes="(max-width: 768px) 50vw, 33vw"
-            data-ai-hint={"anime avatar"}
+            data-ai-hint={"anime artist"}
             className="object-cover"
           />
         </div>
