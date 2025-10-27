@@ -20,6 +20,7 @@ const categoryIcons: { [key: string]: React.ReactNode } = {
 
 export default function Home() {
   const heroAvatar = PlaceHolderImages.find(p => p.id === 'hero-avatar');
+  const galleryCategories = CATEGORIES.filter(c => c.slug !== 'commissions');
 
   return (
     <div className="container mx-auto px-4">
@@ -76,7 +77,7 @@ export default function Home() {
           Explore My Gallery
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {CATEGORIES.map((category) => {
+          {galleryCategories.map((category) => {
             const image = PlaceHolderImages.find(p => p.id === `category-${category.slug}`);
             return (
               <Link href={`/gallery/${category.slug}`} key={category.slug} className="group block">
