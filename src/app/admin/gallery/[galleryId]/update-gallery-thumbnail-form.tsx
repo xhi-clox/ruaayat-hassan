@@ -50,13 +50,11 @@ export default function UpdateGalleryThumbnailForm({ gallery }: UpdateGalleryThu
   useEffect(() => {
     if (imageFile && imageFile[0]) {
       const newPreview = URL.createObjectURL(imageFile[0]);
-      if (newPreview !== preview) {
-        setPreview(newPreview);
-      }
+      setPreview(newPreview);
       // Clean up the object URL on unmount
       return () => URL.revokeObjectURL(newPreview);
     }
-  }, [imageFile, preview]);
+  }, [imageFile]);
 
 
   const onSubmit = async (data: ThumbnailFormValues) => {
