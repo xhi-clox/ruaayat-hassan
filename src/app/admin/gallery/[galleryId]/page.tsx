@@ -1,8 +1,9 @@
+
 'use client';
 
 import { useCollection, useDoc } from '@/firebase';
 import type { Artwork, Gallery } from '@/lib/types';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AddArtworkForm from '../../add-artwork-form';
@@ -10,15 +11,9 @@ import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-type AdminGalleryPageProps = {
-  params: {
-    galleryId: string;
-  };
-};
-
-export default function AdminGalleryPage({ params }: AdminGalleryPageProps) {
-  const { galleryId } = params;
-  const router = useRouter();
+export default function AdminGalleryPage() {
+  const params = useParams();
+  const galleryId = params.galleryId as string;
 
   const { data: gallery, loading: galleryLoading } = useDoc<Gallery>(`galleries/${galleryId}`);
   const { data: artworks, loading: artworksLoading } = useCollection<Artwork>(`galleries/${galleryId}/artworks`);
