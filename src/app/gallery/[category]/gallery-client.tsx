@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, X, Maximize } from 'lucide-react';
 
-import type { Artwork } from '@/lib/data';
+import type { Artwork } from '@/lib/types';
 import { getPlaceholderImage } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -42,7 +42,8 @@ export default function GalleryClient({ artworks }: GalleryClientProps) {
       <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {artworks.map((artwork) => {
           const image = getPlaceholderImage(artwork.imageUrlId);
-          if (!image) return null;
+          const imageUrl = artwork.imageUrl || image?.imageUrl;
+          if (!imageUrl) return null;
 
           return (
             <div
@@ -51,12 +52,12 @@ export default function GalleryClient({ artworks }: GalleryClientProps) {
               onClick={() => setSelectedId(artwork.id)}
             >
               <Image
-                src={image.imageUrl}
+                src={imageUrl}
                 alt={artwork.title}
                 width={600}
                 height={800}
                 className="w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-                data-ai-hint={image.imageHint}
+                data-ai-hint={image?.imageHint}
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                 <h3 className="text-white font-bold text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
@@ -85,7 +86,7 @@ export default function GalleryClient({ artworks }: GalleryClientProps) {
                 className="relative w-full md:w-2/3 h-1/2 md:h-full flex items-center justify-center bg-black"
               >
                 <Image
-                  src={getPlaceholderImage(selectedArtwork.imageUrlId)?.imageUrl || ''}
+                  src={selectedArtwork.imageUrl || getPlaceholderImage(selectedArtwork.imageUrlId)?.imageUrl || ''}
                   alt={selectedArtwork.title}
                   fill
                   className="object-contain"
