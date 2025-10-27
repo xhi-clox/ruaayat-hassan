@@ -1,12 +1,14 @@
+
 'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, X, Maximize } from 'lucide-react';
+import { notFound } from 'next/navigation';
 
-import type { Artwork } from '@/lib/types';
-import { getPlaceholderImage } from '@/lib/utils';
+import type { Artwork, Gallery } from '@/lib/types';
+import { useCollection } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -14,50 +16,84 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
+
 
 type GalleryClientProps = {
-  artworks: Artwork[];
+  categorySlug: string;
 };
 
-export default function GalleryClient({ artworks }: GalleryClientProps) {
+export default function GalleryClient({ categorySlug }: GalleryClientProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const selectedArtwork = selectedId ? artworks.find(art => art.id === selectedId) : null;
-  const selectedIndex = selectedArtwork ? artworks.indexOf(selectedArtwork) : -1;
+  const { data: galleries, loading: galleriesLoading } = useCollection<Gallery>('galleries', { where: ['slug', '==', categorySlug], limit: 1 });
+
+  const gallery = galleries?.[0];
+  const galleryId = gallery?.id;
+
+  const { data: artworks, loading: artworksLoading } = useCollection<Artwork>(
+    galleryId ? `galleries/${galleryId}/artworks` : ''
+  );
+  
+  const loading = galleriesLoading || (galleryId && artworksLoading);
+
+  const selectedArtwork = selectedId && artworks ? artworks.find(art => art.id === selectedId) : null;
+  const selectedIndex = selectedArtwork && artworks ? artworks.indexOf(selectedArtwork) : -1;
 
   const handleNext = () => {
-    if (selectedIndex === -1) return;
+    if (selectedIndex === -1 || !artworks) return;
     const nextIndex = (selectedIndex + 1) % artworks.length;
     setSelectedId(artworks[nextIndex].id);
   };
 
   const handlePrev = () => {
-    if (selectedIndex === -1) return;
+    if (selectedIndex === -1 || !artworks) return;
     const prevIndex = (selectedIndex - 1 + artworks.length) % artworks.length;
     setSelectedId(artworks[prevIndex].id);
   };
 
+  if (!galleriesLoading && !gallery) {
+    notFound();
+  }
+
   return (
     <>
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-        {artworks.map((artwork) => {
-          const image = getPlaceholderImage(artwork.imageUrlId);
-          const imageUrl = artwork.imageUrl || image?.imageUrl;
-          if (!imageUrl) return null;
+      <div className="text-center mb-12">
+        {loading || !gallery ? (
+          <>
+            <Skeleton className="h-16 w-1/2 mx-auto mb-4" />
+            <Skeleton className="h-6 w-3/4 mx-auto" />
+          </>
+        ) : (
+          <>
+            <h1 className="font-headline text-6xl md:text-7xl tracking-wider text-primary">
+              {gallery.name}
+            </h1>
+            <p className="mt-2 text-lg text-foreground/80">A collection of my work in {gallery.name.toLowerCase()}.</p>
+          </>
+        )}
+      </div>
 
-          return (
+      {loading ? (
+         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+            {[...Array(8)].map((_, i) => (
+                <Skeleton key={i} className="h-64 w-full" />
+            ))}
+         </div>
+      ) : (
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+          {artworks?.map((artwork) => (
             <div
               key={artwork.id}
               className="group relative break-inside-avoid overflow-hidden rounded-lg shadow-lg cursor-pointer"
               onClick={() => setSelectedId(artwork.id)}
             >
               <Image
-                src={imageUrl}
+                src={artwork.thumbnailUrl}
                 alt={artwork.title}
                 width={600}
                 height={800}
                 className="w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-                data-ai-hint={image?.imageHint}
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                 <h3 className="text-white font-bold text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
@@ -71,9 +107,9 @@ export default function GalleryClient({ artworks }: GalleryClientProps) {
                 </div>
               </div>
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
 
       <AnimatePresence>
         {selectedArtwork && (
@@ -86,7 +122,7 @@ export default function GalleryClient({ artworks }: GalleryClientProps) {
                 className="relative w-full md:w-2/3 h-1/2 md:h-full flex items-center justify-center bg-black"
               >
                 <Image
-                  src={selectedArtwork.imageUrl || getPlaceholderImage(selectedArtwork.imageUrlId)?.imageUrl || ''}
+                  src={selectedArtwork.imageUrl}
                   alt={selectedArtwork.title}
                   fill
                   className="object-contain"
