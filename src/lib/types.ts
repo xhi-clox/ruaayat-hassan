@@ -24,8 +24,9 @@ export type Artwork = {
 };
 
 export type UserProfile = {
+  id?: string; // id is the doc id, which could be 'admin' or a uid
   uid: string;
-  email: string;
-  displayName?: string;
-  photoURL?: string;
+  email: string | null;
+  displayName?: string | null;
+  photoURL?: string | null;
 };

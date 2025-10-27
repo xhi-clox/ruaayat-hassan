@@ -16,7 +16,8 @@ export default function AdminPage() {
   const router = useRouter();
 
   const { data: galleries, loading: galleriesLoading } = useCollection<Gallery>('galleries');
-  const { data: userProfile, loading: profileLoading } = useDoc<UserProfile>(user ? `users/${user.uid}` : '');
+  // Fetch the 'admin' user profile for display and management purposes
+  const { data: userProfile, loading: profileLoading } = useDoc<UserProfile>('users/admin');
 
   const loading = userLoading || galleriesLoading || profileLoading;
 
@@ -29,10 +30,6 @@ export default function AdminPage() {
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  if (!user || !userProfile) {
-    return null; // Or a more specific loading/error state
-  }
   
   const handleLogout = async () => {
     if (auth) {
@@ -40,6 +37,12 @@ export default function AdminPage() {
       router.push('/login');
     }
   };
+  
+  if (!user) {
+    return null; // Or a more specific loading/error state
+  }
+  
+  const welcomeEmail = userProfile?.email || user.email;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -47,7 +50,7 @@ export default function AdminPage() {
         <h1 className="font-headline text-4xl">Admin Dashboard</h1>
         <Button onClick={handleLogout}>Logout</Button>
       </div>
-      <p className="mb-8">Welcome, {user.email}! This is your admin dashboard.</p>
+      <p className="mb-8">Welcome, {welcomeEmail}! This is your admin dashboard.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Card>
@@ -73,14 +76,16 @@ export default function AdminPage() {
             </CardContent>
           </Card>
           
-          <Card>
-            <CardHeader>
-              <CardTitle>Manage Profile</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <UpdateProfilePicForm user={user} userProfile={userProfile} />
-            </CardContent>
-          </Card>
+          {userProfile && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Manage Profile</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <UpdateProfilePicForm user={user} userProfile={userProfile} />
+              </CardContent>
+            </Card>
+          )}
 
           <Card>
             <CardHeader>

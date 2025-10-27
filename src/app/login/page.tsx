@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
 
@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [isSigningIn, setIsSigningIn] = useState(true); // To toggle between sign-in and sign-up
+  const [isSigningIn, setIsSigningIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { app } = useAuth();
@@ -35,23 +35,30 @@ export default function LoginPage() {
 
     try {
       if (isSigningIn) {
-        // Handle Sign In
         await signInWithEmailAndPassword(auth, email, password);
         router.push('/admin');
       } else {
-        // Handle Sign Up
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Create user document in Firestore
-        const userDocRef = doc(firestore, 'users', user.uid);
+        // Use 'admin' as the document ID for the main user profile
+        const userDocRef = doc(firestore, 'users', 'admin'); 
         await setDoc(userDocRef, {
           uid: user.uid,
           email: user.email,
-          displayName: user.email, // Default display name
-          photoURL: '', // Default photo URL
-        }, { merge: true });
-        
+          displayName: user.email,
+          photoURL: '', 
+        });
+
+        // Also create a document with the user's actual UID for their own management
+        const personalUserDocRef = doc(firestore, 'users', user.uid);
+        await setDoc(personalUserDocRef, {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.email,
+          photoURL: '',
+        });
+
         router.push('/admin');
       }
     } catch (err: any) {
@@ -95,7 +102,7 @@ export default function LoginPage() {
                 required
               />
             </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && <p className="text-destructive text-sm">{error}</p>}
             <Button type="submit" disabled={isLoading} className="w-full" size="lg">
               {isLoading ? 'Loading...' : (isSigningIn ? 'Login' : 'Sign Up')}
             </Button>

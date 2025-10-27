@@ -63,23 +63,24 @@ export default function UpdateProfilePicForm({ user, userProfile }: UpdateProfil
     try {
       const imageFile = data.profileImage[0];
       const storage = getStorage(app);
-      const storageRef = ref(storage, `profile-pictures/${user.uid}/${imageFile.name}`);
+      const storageRef = ref(storage, `profile-pictures/admin/${imageFile.name}`);
 
       const uploadResult = await uploadBytes(storageRef, imageFile);
       const photoURL = await getDownloadURL(uploadResult.ref);
 
-      const userDocRef = doc(firestore, 'users', user.uid);
-      await updateDoc(userDocRef, { photoURL });
-      
-      // Also update the auth user profile if you want it to be reflected across Firebase
-      // This is optional and depends on whether you use auth.currentUser.photoURL elsewhere
-      // await updateProfile(user, { photoURL });
+      // Update the 'admin' document
+      const adminUserDocRef = doc(firestore, 'users', 'admin');
+      await updateDoc(adminUserDocRef, { photoURL });
+
+      // Also update the personal user document
+      const personalUserDocRef = doc(firestore, 'users', user.uid);
+      await updateDoc(personalUserDocRef, { photoURL });
       
       toast({
         title: 'Profile Updated!',
         description: 'Your profile picture has been successfully updated.',
       });
-      reset();
+      // No need to reset form, as we want to keep the preview
     } catch (error: any) {
       console.error('Error updating profile picture:', error);
       toast({
@@ -104,7 +105,7 @@ export default function UpdateProfilePicForm({ user, userProfile }: UpdateProfil
         <div className="space-y-2 flex-grow">
           <Label htmlFor="profileImage">Update Profile Picture</Label>
           <Input id="profileImage" type="file" accept="image/*" {...register('profileImage')} />
-          {errors.profileImage && <p className="text-red-500 text-sm">{errors.profileImage.message}</p>}
+          {errors.profileImage && <p className="text-destructive text-sm">{errors.profileImage.message}</p>}
         </div>
       </div>
       <Button type="submit" disabled={isSubmitting}>
