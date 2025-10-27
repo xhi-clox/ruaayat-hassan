@@ -39,7 +39,7 @@
     {
       "id": "category-commissions",
       "description": "Commissions category thumbnail",
-      "imageUrl": "https://images.unsplash.com/photo-1601397210737-a5534480bdc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhcnQlMjBzdHVkaW98ZW58MHx8fHwxNzYxNTY1NzMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1601397210737-a5534480bdc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhcnQlMjBzdHVkaW98ZW58MHx8fHwxNzYxNTY1NzMzfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "art studio"
     },
     {
@@ -63,7 +63,7 @@
     {
       "id": "digital-art-4",
       "description": "Abstract digital art",
-      "imageUrl": "https://images.unsplash.com/photo-1622737133809-d95047b9e673?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhYnN0cmFjdCUyMGRpZ2l0YWx8ZW58MHx8fHwxNzYxNTA2OTgyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1622737133809-d95047b9e673?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhYnN0cmFjdCUyMGRpZ2l0YWx8ZW58MHx8fHwxNzYxNTA2OTgyfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "abstract digital"
     },
     {
@@ -75,13 +75,13 @@
     {
       "id": "realism-2",
       "description": "Portrait of an elderly person",
-      "imageUrl": "https://images.unsplash.com/photo-1738369350430-87d667611998?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxlbGRlcmx5JTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYxNTY4NTQzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1738369350430-87d667611998?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxlbGRlcmx5JTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYxNTY4NTQzfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "elderly portrait"
     },
     {
       "id": "realism-3",
       "description": "Still life with fruit",
-      "imageUrl": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdGlsbCUyMGxpZmV8ZW58MHx8fHwxNzYxNDk3ODIzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdGlsbCUyMGxpZmV8ZW58MHx8fHwxNzYxNDk3ODIzfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "still life"
     },
     {
