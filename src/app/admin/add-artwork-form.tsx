@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -16,6 +15,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import type { Gallery } from '@/lib/types';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 const artworkSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -50,12 +51,11 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
     handleSubmit,
     formState: { errors },
     reset,
-    control,
     setValue,
   } = useForm<ArtworkFormValues>({
     resolver: zodResolver(artworkSchema),
   });
-  
+
   const uploadImage = async (storage: any, imageFile: File) => {
     const storageRef = ref(storage, `artworks/${Date.now()}_${imageFile.name}`);
     const uploadResult = await uploadBytes(storageRef, imageFile);
@@ -69,42 +69,54 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
     }
 
     setIsSubmitting(true);
+    
     try {
-      const storage = getStorage(app);
-      
-      const imageUrl = await uploadImage(storage, data.image[0]);
-      const thumbnailUrl = await uploadImage(storage, data.thumbnail[0]);
+        const storage = getStorage(app);
+        
+        const imageUrl = await uploadImage(storage, data.image[0]);
+        const thumbnailUrl = await uploadImage(storage, data.thumbnail[0]);
 
-      // Save artwork data to Firestore
-      const artworkData = {
-        title: data.title,
-        date: data.date,
-        medium: data.medium,
-        description: data.description,
-        galleryId: data.galleryId,
-        categorySlug: galleries.find(g => g.id === data.galleryId)?.slug || '',
-        imageUrl: imageUrl,
-        thumbnailUrl: thumbnailUrl,
-        // Using a static ID for now, can be dynamic later
-        imageUrlId: `artwork-${Date.now()}` 
-      };
+        const galleryRef = `galleries/${data.galleryId}/artworks`;
+        const artworkData = {
+            title: data.title,
+            date: data.date,
+            medium: data.medium,
+            description: data.description,
+            galleryId: data.galleryId,
+            categorySlug: galleries.find(g => g.id === data.galleryId)?.slug || '',
+            imageUrl: imageUrl,
+            thumbnailUrl: thumbnailUrl,
+            imageUrlId: `artwork-${Date.now()}` 
+        };
 
-      await addDoc(collection(firestore, `galleries/${data.galleryId}/artworks`), artworkData);
+        addDoc(collection(firestore, galleryRef), artworkData)
+        .then(() => {
+            toast({
+                title: 'Artwork Added!',
+                description: `${data.title} has been successfully uploaded.`,
+            });
+            reset();
+        })
+        .catch(async (serverError) => {
+            const permissionError = new FirestorePermissionError({
+                path: galleryRef,
+                operation: 'create',
+                requestResourceData: artworkData,
+            });
+            errorEmitter.emit('permission-error', permissionError);
+        })
+        .finally(() => {
+            setIsSubmitting(false);
+        });
 
-      toast({
-        title: 'Artwork Added!',
-        description: `${data.title} has been successfully uploaded.`,
-      });
-      reset();
     } catch (error: any) {
-      console.error('Error uploading artwork:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Upload Failed',
-        description: error.message || 'An unexpected error occurred.',
-      });
-    } finally {
-      setIsSubmitting(false);
+        console.error('Error during image upload phase:', error);
+        toast({
+            variant: 'destructive',
+            title: 'Upload Failed',
+            description: error.message || 'An unexpected error occurred during image upload.',
+        });
+        setIsSubmitting(false);
     }
   };
 

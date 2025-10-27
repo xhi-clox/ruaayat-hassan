@@ -3,6 +3,7 @@ import { createContext, useContext, ReactNode } from 'react';
 import type { FirebaseApp } from 'firebase/app';
 import type { Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
+import { FirebaseErrorListener } from '@/components/FirebaseErrorListener';
 
 interface FirebaseContextType {
   app: FirebaseApp | undefined;
@@ -21,6 +22,7 @@ export function FirebaseProvider({
   return (
     <FirebaseContext.Provider value={props}>
       {children}
+      <FirebaseErrorListener />
     </FirebaseContext.Provider>
   );
 }
@@ -38,7 +40,7 @@ export const useFirebaseApp = () => {
     if (context === undefined) {
         throw new Error('useFirebaseApp must be used within a FirebaseProvider');
     }
-    return context;
+    return context.app;
 };
 export const useAuth = () => useFirebase();
 export const useFirestore = () => useFirebase().firestore;

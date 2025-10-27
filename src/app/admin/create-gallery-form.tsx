@@ -11,6 +11,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
+
 
 const gallerySchema = z.object({
   name: z.string().min(2, 'Gallery name must be at least 2 characters long.'),
@@ -39,29 +42,31 @@ export default function CreateGalleryForm() {
     }
 
     setIsSubmitting(true);
-    try {
-      const slug = data.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+    const slug = data.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+    const galleryData = {
+      name: data.name,
+      slug: slug,
+    };
 
-      await addDoc(collection(firestore, 'galleries'), {
-        name: data.name,
-        slug: slug,
+    addDoc(collection(firestore, 'galleries'), galleryData)
+      .then(() => {
+        toast({
+          title: 'Gallery Created!',
+          description: `The "${data.name}" gallery has been added.`,
+        });
+        reset();
+      })
+      .catch(async (serverError) => {
+        const permissionError = new FirestorePermissionError({
+            path: 'galleries',
+            operation: 'create',
+            requestResourceData: galleryData,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
-
-      toast({
-        title: 'Gallery Created!',
-        description: `The "${data.name}" gallery has been added.`,
-      });
-      reset();
-    } catch (error: any) {
-      console.error('Error creating gallery:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Creation Failed',
-        description: error.message || 'An unexpected error occurred.',
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
