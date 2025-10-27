@@ -15,6 +15,7 @@ import type { User } from 'firebase/auth';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { User as UserIcon } from 'lucide-react';
+import type { UserProfile } from '@/lib/types';
 
 const profileSchema = z.object({
   profileImage: z.instanceof(FileList).refine((files) => files.length === 1, 'A profile image is required.'),
@@ -24,14 +25,15 @@ type ProfileFormValues = z.infer<typeof profileSchema>;
 
 type UpdateProfilePicFormProps = {
   user: User;
+  userProfile: UserProfile;
 };
 
-export default function UpdateProfilePicForm({ user }: UpdateProfilePicFormProps) {
+export default function UpdateProfilePicForm({ user, userProfile }: UpdateProfilePicFormProps) {
   const { app } = useFirebaseApp();
   const firestore = useFirestore();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [preview, setPreview] = useState<string | null>(user.photoURL);
+  const [preview, setPreview] = useState<string | null>(userProfile.photoURL || null);
 
   const {
     register,

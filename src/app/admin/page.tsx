@@ -1,30 +1,39 @@
 'use client';
 
-import { useAuth, useUser, useCollection } from '@/firebase';
+import { useAuth, useUser, useCollection, useDoc } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AddArtworkForm from './add-artwork-form';
 import CreateGalleryForm from './create-gallery-form';
 import UpdateProfilePicForm from './update-profile-pic-form';
-import type { Gallery } from '@/lib/types';
+import type { Gallery, UserProfile } from '@/lib/types';
+import { useEffect } from 'react';
 
 export default function AdminPage() {
   const { user, loading: userLoading } = useUser();
   const { auth } = useAuth();
   const router = useRouter();
-  
-  const { data: galleries, loading: galleriesLoading } = useCollection<Gallery>('galleries');
 
-  if (userLoading || galleriesLoading) {
+  const { data: galleries, loading: galleriesLoading } = useCollection<Gallery>('galleries');
+  const { data: userProfile, loading: profileLoading } = useDoc<UserProfile>(user ? `users/${user.uid}` : '');
+
+  const loading = userLoading || galleriesLoading || profileLoading;
+
+  useEffect(() => {
+    if (!userLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, userLoading, router]);
+
+  if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!user) {
-    router.push('/login');
-    return null;
+  if (!user || !userProfile) {
+    return null; // Or a more specific loading/error state
   }
-
+  
   const handleLogout = async () => {
     if (auth) {
       await auth.signOut();
@@ -69,7 +78,7 @@ export default function AdminPage() {
               <CardTitle>Manage Profile</CardTitle>
             </CardHeader>
             <CardContent>
-              <UpdateProfilePicForm user={user} />
+              <UpdateProfilePicForm user={user} userProfile={userProfile} />
             </CardContent>
           </Card>
 
