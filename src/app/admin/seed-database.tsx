@@ -17,6 +17,8 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 export default function SeedDatabase() {
   const firestore = useFirestore();
@@ -35,68 +37,82 @@ export default function SeedDatabase() {
     }
 
     setIsSeeding(true);
+    const batch = writeBatch(firestore);
+    let operationsCount = 0;
+    
     try {
-      const batch = writeBatch(firestore);
-      let operationsCount = 0;
-
-      // Seed Galleries
-      const galleriesRef = collection(firestore, 'galleries');
-      for (const galleryData of SEED_GALLERIES) {
-        const q = query(galleriesRef, where('slug', '==', galleryData.slug));
-        const existing = await getDocs(q);
-        if (existing.empty) {
-          const newGalleryRef = doc(galleriesRef);
-          batch.set(newGalleryRef, galleryData);
-          operationsCount++;
-        }
-      }
-
-      // Seed Artworks
-      for (const artworkData of SEED_ARTWORKS) {
-         const gallerySlug = artworkData.galleryId; // The seed data uses slugs as galleryId
-         const qGallery = query(collection(firestore, 'galleries'), where('slug', '==', gallerySlug));
-         const gallerySnapshot = await getDocs(qGallery);
-
-         if (!gallerySnapshot.empty) {
-            const galleryDoc = gallerySnapshot.docs[0];
-            const artworksRef = collection(firestore, `galleries/${galleryDoc.id}/artworks`);
-            
-            // Check if artwork with the same imageUrlId already exists
-            const qArtwork = query(artworksRef, where('imageUrlId', '==', artworkData.imageUrlId));
-            const existingArtwork = await getDocs(qArtwork);
-
-            if (existingArtwork.empty) {
-                const newArtworkRef = doc(artworksRef);
-                // Create a new object with the correct galleryId
-                const finalArtworkData = { ...artworkData, galleryId: galleryDoc.id };
-                batch.set(newArtworkRef, finalArtworkData);
-                operationsCount++;
+        // Prepare Galleries
+        const galleriesRef = collection(firestore, 'galleries');
+        for (const galleryData of SEED_GALLERIES) {
+            const q = query(galleriesRef, where('slug', '==', galleryData.slug));
+            const existing = await getDocs(q);
+            if (existing.empty) {
+            const newGalleryRef = doc(galleriesRef);
+            batch.set(newGalleryRef, galleryData);
+            operationsCount++;
             }
-         }
-      }
+        }
 
-      if (operationsCount > 0) {
-        await batch.commit();
-        toast({
-          title: 'Database Seeded!',
-          description: `${operationsCount} new documents have been added.`,
-        });
-      } else {
-        toast({
-          title: 'Database Already Seeded',
-          description: 'No new documents were added.',
-        });
-      }
-      setIsDone(true);
+        // Prepare Artworks
+        for (const artworkData of SEED_ARTWORKS) {
+            const gallerySlug = artworkData.galleryId; // The seed data uses slugs as galleryId
+            const qGallery = query(collection(firestore, 'galleries'), where('slug', '==', gallerySlug));
+            const gallerySnapshot = await getDocs(qGallery);
+
+            if (!gallerySnapshot.empty) {
+                const galleryDoc = gallerySnapshot.docs[0];
+                const artworksRef = collection(firestore, `galleries/${galleryDoc.id}/artworks`);
+                
+                const qArtwork = query(artworksRef, where('imageUrlId', '==', artworkData.imageUrlId));
+                const existingArtwork = await getDocs(qArtwork);
+
+                if (existingArtwork.empty) {
+                    const newArtworkRef = doc(artworksRef);
+                    const finalArtworkData = { ...artworkData, galleryId: galleryDoc.id };
+                    batch.set(newArtworkRef, finalArtworkData);
+                    operationsCount++;
+                }
+            }
+        }
+
+        if (operationsCount > 0) {
+            batch.commit()
+                .then(() => {
+                    toast({
+                        title: 'Database Seeded!',
+                        description: `${operationsCount} new documents have been added.`,
+                    });
+                    setIsDone(true);
+                })
+                .catch(async (serverError) => {
+                    // This is the correct way to handle permission errors for this app
+                    const permissionError = new FirestorePermissionError({
+                        path: 'Multiple paths (batch write)',
+                        operation: 'write',
+                        requestResourceData: { note: `Batch write failed with ${operationsCount} operations.` },
+                    });
+                    errorEmitter.emit('permission-error', permissionError);
+                })
+                .finally(() => {
+                    setIsSeeding(false);
+                });
+        } else {
+            toast({
+            title: 'Database Already Seeded',
+            description: 'No new documents were added.',
+            });
+            setIsDone(true);
+            setIsSeeding(false);
+        }
     } catch (error: any) {
-      console.error('Error seeding database:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Seeding Failed',
-        description: error.message || 'An unexpected error occurred.',
-      });
-    } finally {
-      setIsSeeding(false);
+        // This outer catch handles failures from reading data (getDocs)
+        console.error('An error occurred during the seeding preparation:', error);
+        toast({
+            variant: 'destructive',
+            title: 'An Unexpected Error Occurred',
+            description: error.message || 'Could not prepare the seed data.',
+        });
+        setIsSeeding(false);
     }
   };
 
