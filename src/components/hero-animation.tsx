@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils';
 type HeroAnimationProps = {
   heroAvatarUrl?: string | null;
   variant?: 'default' | 'small';
-  children?: React.ReactNode;
 };
 
 const OrbitingIcon = ({ children, className, style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
@@ -20,7 +19,7 @@ const OrbitingIcon = ({ children, className, style }: { children: React.ReactNod
   </div>
 );
 
-export default function HeroAnimation({ heroAvatarUrl, variant = 'default', children }: HeroAnimationProps) {
+export default function HeroAnimation({ heroAvatarUrl, variant = 'default' }: HeroAnimationProps) {
   const containerSize = variant === 'default' ? 'h-72 w-72 md:h-96 md:w-96' : 'h-24 w-80';
   const imageSize = variant === 'default' ? 'h-64 w-64 md:h-80 md:w-80' : 'h-24 w-24';
 
@@ -51,7 +50,6 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default', chil
                 {item.icon}
             </OrbitingIcon>
         ))}
-        {children}
       </div>
     )
   }
@@ -74,23 +72,22 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default', chil
         </OrbitingIcon>
       ))}
       
-      <div className={cn(
-          "relative rounded-full overflow-hidden bg-background/50",
-           imageSize
-      )}>
-        {heroAvatarUrl && (
-            <Image
-                src={heroAvatarUrl}
-                alt={"Rubayat Hassan's avatar"}
-                fill
-                priority
-                sizes="(max-width: 768px) 50vw, 33vw"
-                data-ai-hint={"anime artist"}
-                className="object-cover"
-            />
-        )}
-      </div>
-      {children}
+      {heroAvatarUrl && (
+        <div className={cn(
+            "relative rounded-full overflow-hidden bg-background/50",
+            imageSize
+        )}>
+          <Image
+              src={heroAvatarUrl}
+              alt={"Rubayat Hassan's avatar"}
+              fill
+              priority
+              sizes="(max-width: 768px) 50vw, 33vw"
+              data-ai-hint={"anime artist"}
+              className="object-cover"
+          />
+        </div>
+      )}
     </div>
   );
 }
