@@ -95,37 +95,35 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
         };
 
         const docRef = collection(firestore, galleryRefPath);
-        addDoc(docRef, artworkData)
-        .then(() => {
-            toast({
-                title: 'Artwork Added!',
-                description: `${data.title} has been successfully uploaded.`,
-            });
-            reset();
-             if (defaultGalleryId) {
-                setValue('galleryId', defaultGalleryId);
-            }
-        })
-        .catch(async (serverError) => {
-            console.error("Firestore Error:", serverError);
-            const permissionError = new FirestorePermissionError({
-                path: galleryRefPath,
-                operation: 'create',
-                requestResourceData: artworkData,
-            });
-            errorEmitter.emit('permission-error', permissionError);
-        })
-        .finally(() => {
-            setIsSubmitting(false);
+        await addDoc(docRef, artworkData);
+
+        toast({
+            title: 'Artwork Added!',
+            description: `${data.title} has been successfully uploaded.`,
         });
+        reset();
+            if (defaultGalleryId) {
+            setValue('galleryId', defaultGalleryId);
+        }
 
     } catch (error: any) {
-        console.error('Error during image upload phase:', error);
-        toast({
-            variant: 'destructive',
-            title: 'Upload Failed',
-            description: error.message || 'An unexpected error occurred during image upload.',
-        });
+        console.error('Error adding artwork:', error);
+        
+        if (error.code && (error.code.includes('permission-denied') || error.code.includes('unauthenticated'))) {
+             const permissionError = new FirestorePermissionError({
+                path: `galleries/${data.galleryId}/artworks`,
+                operation: 'create',
+                requestResourceData: data,
+            });
+            errorEmitter.emit('permission-error', permissionError);
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Upload Failed',
+                description: error.message || 'An unexpected error occurred.',
+            });
+        }
+    } finally {
         setIsSubmitting(false);
     }
   };
