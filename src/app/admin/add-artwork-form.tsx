@@ -94,47 +94,36 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
           imageUrlId: `artwork-${Date.now()}` 
       };
 
-      // Step 3: Add document to Firestore using the non-blocking pattern
-      addDoc(collection(firestore, galleryRefPath), artworkData)
-        .then(() => {
-          toast({
-              title: 'Artwork Added!',
-              description: `${data.title} has been successfully uploaded.`,
-          });
-          reset();
-          if (defaultGalleryId) {
-              setValue('galleryId', defaultGalleryId);
-          }
-        })
-        .catch(async (serverError) => {
-           // This is the correct way to handle permission errors for this app
-           const permissionError = new FirestorePermissionError({
-              path: `galleries/${data.galleryId}/artworks`,
-              operation: 'create',
-              requestResourceData: artworkData,
-          });
-          errorEmitter.emit('permission-error', permissionError);
-          // Also show a toast to the user
-          toast({
-            variant: 'destructive',
-            title: 'Permission Denied',
-            description: 'Could not save artwork. Check permissions.',
-          });
-        })
-        .finally(() => {
-          // This will always run, un-sticking the UI
-          setIsSubmitting(false);
-        });
+      // Step 3: Add document to Firestore
+      await addDoc(collection(firestore, galleryRefPath), artworkData);
+
+      toast({
+          title: 'Artwork Added!',
+          description: `${data.title} has been successfully uploaded.`,
+      });
+      reset();
+      if (defaultGalleryId) {
+          setValue('galleryId', defaultGalleryId);
+      }
 
     } catch (error: any) {
-      // This outer catch handles failures from image uploads or other unexpected errors
       console.error('An error occurred:', error);
+      // Check if it's a Firestore permission error
+      if (error.code === 'permission-denied') {
+         const permissionError = new FirestorePermissionError({
+            path: `galleries/${data.galleryId}/artworks`,
+            operation: 'create',
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      }
       toast({
           variant: 'destructive',
           title: 'An Unexpected Error Occurred',
           description: error.message || 'Could not complete the operation.',
       });
-      setIsSubmitting(false); // Ensure submission state is reset on any failure
+    } finally {
+        // This will always run, un-sticking the UI
+        setIsSubmitting(false);
     }
   };
 
@@ -204,3 +193,4 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
     </form>
   );
 }
+
