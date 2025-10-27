@@ -19,7 +19,7 @@ const OrbitingIcon = ({ children, className, style }: { children: React.ReactNod
 
 export default function HeroAnimation({ heroAvatar }: HeroAnimationProps) {
   return (
-    <div className="relative mb-8 flex justify-center items-center h-64 w-64 md:h-80 md:w-80">
+    <div className="relative mb-8 flex justify-center items-center h-72 w-72 md:h-96 md:w-96">
       <OrbitingIcon className="top-0 left-10 animate-float" style={{ animationDelay: '0s' }}>
         <Palette className="size-8 md:size-10" />
       </OrbitingIcon>
@@ -33,7 +33,7 @@ export default function HeroAnimation({ heroAvatar }: HeroAnimationProps) {
         <Droplets className="size-8 md:size-10" />
       </OrbitingIcon>
       
-      <div className="relative h-56 w-56 md:h-72 md:w-72 rounded-full overflow-hidden shadow-2xl shadow-primary/20">
+      <div className="relative h-64 w-64 md:h-80 md:w-80 rounded-full overflow-hidden shadow-2xl shadow-primary/20">
         <Image
           src={heroAvatar.imageUrl}
           alt={heroAvatar.description}

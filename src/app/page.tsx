@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-16">
-      <section className="flex flex-col items-center text-center py-16 md:py-24 relative overflow-hidden">
+      <section className="flex flex-col items-center text-center pt-8 md:pt-12 pb-16 md:pb-24 relative overflow-hidden">
         {heroAvatar && <HeroAnimation heroAvatar={heroAvatar} />}
         <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl tracking-wider mt-4">
           RUBAYAT HASSAN
