@@ -1,3 +1,172 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-avatar",
+      "description": "Anime avatar of the artist",
+      "imageUrl": "https://images.unsplash.com/photo-1505846951821-e25bacf2eccd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhbmltZSUyMGF2YXRhcnxlbnwwfHx8fDE3NjE1Njg2MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "anime avatar"
+    },
+    {
+      "id": "category-digital-arts",
+      "description": "Digital art category thumbnail",
+      "imageUrl": "https://images.unsplash.com/photo-1515222410484-613a51c43721?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkaWdpdGFsJTIwcGFpbnRpbmd8ZW58MHx8fHwxNzYxNTYyNDM2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "digital painting"
+    },
+    {
+      "id": "category-realism-portraits",
+      "description": "Realism portraits category thumbnail",
+      "imageUrl": "https://images.unsplash.com/photo-1606143412458-acc5f86de897?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwb3J0cmFpdCUyMHBob3RvZ3JhcGh5fGVufDB8fHx8MTc2MTU1OTk0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "portrait photography"
+    },
+    {
+      "id": "category-water-colour-paintings",
+      "description": "Watercolor paintings category thumbnail",
+      "imageUrl": "https://images.unsplash.com/photo-1601662528567-526cd06f6582?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3YXRlcmNvbG9yJTIwdGV4dHVyZXxlbnwwfHx8fDE3NjE0OTQ1Nzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "watercolor texture"
+    },
+    {
+      "id": "category-inking",
+      "description": "Inking category thumbnail",
+      "imageUrl": "https://images.unsplash.com/photo-1662524518497-df3201ff76c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxpbmslMjBkcmF3aW5nfGVufDB8fHx8MTc2MTU2ODYzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ink drawing"
+    },
+    {
+      "id": "category-pencil-sketches",
+      "description": "Pencil sketches category thumbnail",
+      "imageUrl": "https://images.unsplash.com/photo-1602738328654-51ab2ae6c4ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZW5jaWwlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNDcyMTE1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pencil sketch"
+    },
+    {
+      "id": "category-commissions",
+      "description": "Commissions category thumbnail",
+      "imageUrl": "https://images.unsplash.com/photo-1601397210737-a5534480bdc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhcnQlMjBzdHVkaW98ZW58MHx8fHwxNzYxNTY1NzMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "art studio"
+    },
+    {
+      "id": "digital-art-1",
+      "description": "A vibrant digital cityscape",
+      "imageUrl": "https://images.unsplash.com/photo-1561344640-2453889cde5b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y3liZXJwdW5rJTIwY2l0eXxlbnwwfHx8fDE3NjE1MDQwNzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyberpunk city"
+    },
+    {
+      "id": "digital-art-2",
+      "description": "Fantasy character concept",
+      "imageUrl": "https://images.unsplash.com/photo-1760954185909-772b3d386550?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmYW50YXN5JTIwd2FycmlvcnxlbnwwfHx8fDE3NjE0OTEyMjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fantasy warrior"
+    },
+    {
+      "id": "digital-art-3",
+      "description": "Surreal landscape",
+      "imageUrl": "https://images.unsplash.com/photo-1652615676468-f18e80a5fe7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdXJyZWFsJTIwbGFuZHNjYXBlfGVufDB8fHx8MTc2MTUxMzQzMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "surreal landscape"
+    },
+    {
+      "id": "digital-art-4",
+      "description": "Abstract digital art",
+      "imageUrl": "https://images.unsplash.com/photo-1622737133809-d95047b9e673?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhYnN0cmFjdCUyMGRpZ2l0YWx8ZW58MHx8fHwxNzYxNTA2OTgyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract digital"
+    },
+    {
+      "id": "realism-1",
+      "description": "Detailed eye portrait",
+      "imageUrl": "https://images.unsplash.com/photo-1707167144685-6e83ca79c483?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZWFsaXN0aWMlMjBleWV8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "realistic eye"
+    },
+    {
+      "id": "realism-2",
+      "description": "Portrait of an elderly person",
+      "imageUrl": "https://images.unsplash.com/photo-1738369350430-87d667611998?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxlbGRlcmx5JTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYxNTY4NTQzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "elderly portrait"
+    },
+    {
+      "id": "realism-3",
+      "description": "Still life with fruit",
+      "imageUrl": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdGlsbCUyMGxpZmV8ZW58MHx8fHwxNzYxNDk3ODIzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "still life"
+    },
+    {
+      "id": "watercolor-1",
+      "description": "Loose floral watercolor",
+      "imageUrl": "https://images.unsplash.com/photo-1740511318854-720e46fef2b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmbG9yYWwlMjB3YXRlcmNvbG9yfGVufDB8fHx8MTc2MTU2ODYzMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "floral watercolor"
+    },
+    {
+      "id": "watercolor-2",
+      "description": "Misty mountain landscape",
+      "imageUrl": "https://images.unsplash.com/photo-1604223190546-a43e4c7f29d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjE0NTY1NDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mountain landscape"
+    },
+    {
+      "id": "watercolor-3",
+      "description": "Animal portrait in watercolor",
+      "imageUrl": "https://images.unsplash.com/photo-1647360077705-a4769835da28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhbmltYWwlMjB3YXRlcmNvbG9yfGVufDB8fHx8MTc2MTU2ODYzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "animal watercolor"
+    },
+    {
+      "id": "watercolor-4",
+      "description": "Cityscape in watercolor",
+      "imageUrl": "https://images.unsplash.com/photo-1693067172446-81c51c659699?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2l0eXNjYXBlJTIwcGFpbnRpbmd8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cityscape painting"
+    },
+    {
+      "id": "ink-1",
+      "description": "Intricate ink pattern",
+      "imageUrl": "https://images.unsplash.com/photo-1752594504007-7a7206a8b39a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYW5kYWxhJTIwZHJhd2luZ3xlbnwwfHx8fDE3NjE1Njg2MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mandala drawing"
+    },
+    {
+      "id": "ink-2",
+      "description": "Character sketch in ink",
+      "imageUrl": "https://images.unsplash.com/photo-1760577324189-a2b630c4e3da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29taWMlMjBjaGFyYWN0ZXJ8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "comic character"
+    },
+    {
+      "id": "ink-3",
+      "description": "Architectural inking",
+      "imageUrl": "https://images.unsplash.com/photo-1598368195835-91e67f80c9d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhcmNoaXRlY3R1cmUlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "architecture sketch"
+    },
+    {
+      "id": "pencil-1",
+      "description": "Graphite portrait sketch",
+      "imageUrl": "https://images.unsplash.com/photo-1654787024888-0d36d2422772?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZW5jaWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjE1Njg2MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pencil portrait"
+    },
+    {
+      "id": "pencil-2",
+      "description": "Animal sketch",
+      "imageUrl": "https://images.unsplash.com/photo-1640894822819-0a94bec464bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbmltYWwlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "animal sketch"
+    },
+    {
+      "id": "pencil-3",
+      "description": "Landscape sketch",
+      "imageUrl": "https://images.unsplash.com/photo-1756289345404-c5514dc9abd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxsYW5kc2NhcGUlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "landscape sketch"
+    },
+    {
+      "id": "commission-digital",
+      "description": "Example of a digital portrait commission",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1572383761657-4919d351d433?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkaWdpdGFsJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "digital portrait"
+    },
+    {
+      "id": "commission-watercolor",
+      "description": "Example of a watercolor piece commission",
+      "imageUrl": "https://images.unsplash.com/photo-1731271327970-92a961ff2b01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3YXRlcmNvbG9yJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "watercolor portrait"
+    },
+    {
+      "id": "commission-illustration",
+      "description": "Example of a full illustration commission",
+      "imageUrl": "https://images.unsplash.com/photo-1754366310288-cb944fc6a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmYW50YXN5JTIwaWxsdXN0cmF0aW9ufGVufDB8fHx8MTc2MTU2ODYzMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fantasy illustration"
+    },
+    {
+      "id": "commission-inking",
+      "description": "Example of a custom inking commission",
+      "imageUrl": "https://images.unsplash.com/photo-1567333860476-cd5fff1d92f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmslMjBpbGx1c3RyYXRpb258ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ink illustration"
+    }
+  ]
 }
