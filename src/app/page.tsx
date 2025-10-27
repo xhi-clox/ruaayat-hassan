@@ -44,7 +44,6 @@ export default function Home() {
             </HeroAnimation>
         </div>
         <div className="mt-12 flex flex-col items-center gap-2">
-            <p className="text-sm text-foreground/60 mb-2">Follow me on social media</p>
             <div className="flex items-center gap-4">
                 <Link href="#" aria-label="Facebook" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
                   <Facebook className="h-8 w-8 transition-all" />
@@ -59,6 +58,7 @@ export default function Home() {
                   <Youtube className="h-8 w-8 transition-all" />
                 </Link>
             </div>
+            <p className="text-sm text-foreground/60 mt-2">Follow me on social media</p>
         </div>
       </section>
 
