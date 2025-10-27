@@ -1,4 +1,4 @@
-import { Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
@@ -11,13 +11,23 @@ export function SiteFooter() {
         </p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" asChild>
-            <Link href="#" aria-label="Twitter">
-              <Twitter className="h-5 w-5" />
+            <Link href="#" aria-label="Facebook">
+              <Facebook className="h-5 w-5" />
             </Link>
           </Button>
           <Button variant="ghost" size="icon" asChild>
             <Link href="#" aria-label="Instagram">
               <Instagram className="h-5 w-5" />
+            </Link>
+          </Button>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="#" aria-label="X / Twitter">
+              <Twitter className="h-5 w-5" />
+            </Link>
+          </Button>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="#" aria-label="YouTube">
+              <Youtube className="h-5 w-5" />
             </Link>
           </Button>
         </div>
