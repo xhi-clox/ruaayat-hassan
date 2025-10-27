@@ -9,18 +9,25 @@ import CreateGalleryForm from './create-gallery-form';
 import UpdateProfilePicForm from './update-profile-pic-form';
 import type { UserProfile } from '@/lib/types';
 import { useEffect } from 'react';
-import { useAuth, useDoc, useCollection } from '@/firebase';
+import { useAuth, useDoc, useCollection, useFirestore } from '@/firebase';
 import type { Gallery } from '@/lib/types';
 import Link from 'next/link';
 import Image from 'next/image';
 import SeedDatabase from './seed-database';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
+import DeleteConfirmationDialog from '@/components/delete-confirmation-dialog';
+import { Pencil, Trash2 } from 'lucide-react';
 
 export default function AdminPage() {
   const { user, loading: userLoading } = useUser();
   const { auth } = useAuth();
   const router = useRouter();
+  const firestore = useFirestore();
+  const { toast } = useToast();
 
-  // Fetch the 'admin' user profile for display and management purposes
   const { data: userProfile, loading: profileLoading } = useDoc<UserProfile>(
     user ? `users/${user.uid}` : 'users/admin'
   );
@@ -40,6 +47,36 @@ export default function AdminPage() {
       await auth.signOut();
       router.push('/login');
     }
+  };
+
+  const handleDeleteGallery = (galleryId: string, galleryName: string) => {
+    if (!firestore) {
+      toast({ variant: 'destructive', title: 'Error', description: 'Firestore not initialized.' });
+      return;
+    }
+    
+    // Note: This does not delete subcollections (artworks). 
+    // Firestore requires deleting subcollections manually.
+    const galleryRef = doc(firestore, 'galleries', galleryId);
+    deleteDoc(galleryRef)
+      .then(() => {
+        toast({
+          title: 'Gallery Deleted',
+          description: `The "${galleryName}" gallery has been deleted. Note: Artworks inside the gallery are not automatically deleted.`,
+        });
+      })
+      .catch(async (serverError) => {
+        const permissionError = new FirestorePermissionError({
+          path: galleryRef.path,
+          operation: 'delete',
+        });
+        errorEmitter.emit('permission-error', permissionError);
+        toast({
+          variant: 'destructive',
+          title: 'Permission Denied',
+          description: 'Could not delete gallery. Check permissions.',
+        });
+      });
   };
 
   if (loading) {
@@ -85,11 +122,22 @@ export default function AdminPage() {
                       <div className="flex-grow">
                         <span className="font-semibold">{gallery.name}</span>
                       </div>
-                       <Button asChild variant="outline" size="sm">
-                        <Link href={`/admin/gallery/${gallery.id}`}>
-                          Manage
-                        </Link>
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={`/admin/gallery/${gallery.id}`}>
+                            <Pencil className="mr-2 h-3 w-3" /> Manage
+                          </Link>
+                        </Button>
+                        <DeleteConfirmationDialog
+                          onConfirm={() => handleDeleteGallery(gallery.id, gallery.name)}
+                          itemName={gallery.name}
+                          itemType="gallery"
+                        >
+                           <Button variant="destructive" size="sm">
+                            <Trash2 className="mr-2 h-3 w-3" /> Delete
+                          </Button>
+                        </DeleteConfirmationDialog>
+                      </div>
                     </li>
                   ))}
                 </ul>
