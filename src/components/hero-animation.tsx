@@ -74,7 +74,7 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default', chil
       ))}
       
       {heroAvatarUrl && (
-        <div className={cn("relative rounded-full overflow-hidden shadow-2xl shadow-primary/20", imageSize)}>
+        <div className={cn("relative rounded-full overflow-hidden shadow-2xl shadow-primary/20 bg-white", imageSize)}>
           <Image
             src={heroAvatarUrl}
             alt={"Rubayat Hassan's avatar"}
@@ -90,3 +90,5 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default', chil
     </div>
   );
 }
+
+    
