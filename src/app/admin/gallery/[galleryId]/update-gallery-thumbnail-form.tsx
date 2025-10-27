@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -46,12 +46,18 @@ export default function UpdateGalleryThumbnailForm({ gallery }: UpdateGalleryThu
   });
 
   const imageFile = watch('thumbnail');
-  if (imageFile && imageFile[0]) {
-    const newPreview = URL.createObjectURL(imageFile[0]);
-    if (newPreview !== preview) {
-      setPreview(newPreview);
+
+  useEffect(() => {
+    if (imageFile && imageFile[0]) {
+      const newPreview = URL.createObjectURL(imageFile[0]);
+      if (newPreview !== preview) {
+        setPreview(newPreview);
+      }
+      // Clean up the object URL on unmount
+      return () => URL.revokeObjectURL(newPreview);
     }
-  }
+  }, [imageFile, preview]);
+
 
   const onSubmit = async (data: ThumbnailFormValues) => {
     if (!firestore || !app) {
