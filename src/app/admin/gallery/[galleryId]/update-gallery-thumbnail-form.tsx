@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useFirestore, useFirebaseApp } from '@/firebase';
+import { useAuth } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,8 +30,7 @@ type UpdateGalleryThumbnailFormProps = {
 };
 
 export default function UpdateGalleryThumbnailForm({ gallery }: UpdateGalleryThumbnailFormProps) {
-  const app = useFirebaseApp();
-  const firestore = useFirestore();
+  const { app, firestore } = useAuth();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(gallery.thumbnailUrl || null);
