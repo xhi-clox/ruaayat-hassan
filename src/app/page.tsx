@@ -34,21 +34,14 @@ export default function Home() {
       </section>
 
       <section className="my-16 md:my-24 py-16 bg-card/50 rounded-2xl shadow-lg">
-        <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-12 px-8 md:px-16">
-          <div className="md:col-span-2">
+        <div className="grid grid-cols-1 items-center gap-12 px-8 md:px-16">
+          <div className="md:col-span-2 text-center">
             <h2 className="font-headline text-5xl text-primary mb-4 tracking-wide">
               A Glimpse into My World
             </h2>
-            <p className="font-bio text-3xl md:text-4xl leading-relaxed text-foreground/90">
+            <p className="font-bio text-3xl md:text-4xl leading-relaxed text-foreground/90 max-w-4xl mx-auto">
               &ldquo;Every canvas is a journey, and every stroke tells a story. I pour my heart into creating art that feels alive, blending chaotic creativity with clean, heartfelt expression.&rdquo;
             </p>
-          </div>
-          <div className="flex justify-center">
-            <Button asChild size="lg" className="rounded-full py-8 px-10 text-lg font-bold">
-              <Link href="/commissions">
-                Commission Your Piece <ArrowRight className="ml-2" />
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
@@ -59,6 +52,7 @@ export default function Home() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {CATEGORIES.map((category) => {
+            if (category.slug === 'commissions') return null;
             const image = PlaceHolderImages.find(p => p.id === `category-${category.slug}`);
             return (
               <Link href={`/gallery/${category.slug}`} key={category.slug} className="group block">
