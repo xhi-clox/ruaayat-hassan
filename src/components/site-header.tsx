@@ -31,7 +31,6 @@ export function SiteHeader() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Link href="/commissions" className="transition-colors hover:text-foreground/80 text-foreground/60">Commissions</Link>
         </nav>
       </div>
     </header>
