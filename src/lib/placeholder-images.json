@@ -3,8 +3,8 @@
     {
       "id": "hero-avatar",
       "description": "Anime avatar of the artist",
-      "imageUrl": "https://storage.googleapis.com/project-spark-348216.appspot.com/a62c5e53-a55e-49b2-a43c-f4b67f136b37/user_prompt/tmp-14-916057008.png",
-      "imageHint": "anime boy"
+      "imageUrl": "https://images.unsplash.com/photo-1617170183399-24b4550c6d48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhcnRpc3QlMjBwcm90YWdvbmlzdHxlbnwwfHx8fDE3NjE1Njg2MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "artist protagonist"
     },
     {
       "id": "category-digital-arts",
@@ -153,19 +153,19 @@
     {
       "id": "commission-watercolor",
       "description": "Example of a watercolor piece commission",
-      "imageUrl": "https://images.unsplash.com/photo-1731271327970-92a961ff2b01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3YXRlcmNvbG9yJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1731271327970-92a961ff2b01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3YXRlcmNvbG9yJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "watercolor portrait"
     },
     {
       "id": "commission-illustration",
       "description": "Example of a full illustration commission",
-      "imageUrl": "https://images.unsplash.com/photo-1754366310288-cb944fc6a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmYW50YXN5JTIwaWxsdXN0cmF0aW9ufGVufDB8fHx8MTc2MTU2ODYzMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1754366310288-cb944fc6a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmYW50YXN5JTIwaWxsdXN0cmF0aW9ufGVufDB8fHx8MTc2MTU2ODYzMnww&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "fantasy illustration"
     },
     {
       "id": "commission-inking",
       "description": "Example of a custom inking commission",
-      "imageUrl": "https://images.unsplash.com/photo-1567333860476-cd5fff1d92f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmslMjBpbGx1c3RyYXRpb258ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1567333860476-cd5fff1d92f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmslMjBpbGx1c3RyYXRpb258ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "ink illustration"
     }
   ]
