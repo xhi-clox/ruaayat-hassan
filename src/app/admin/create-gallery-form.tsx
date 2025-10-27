@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -35,7 +36,7 @@ export default function CreateGalleryForm() {
     resolver: zodResolver(gallerySchema),
   });
 
-  const onSubmit = async (data: GalleryFormValues) => {
+  const onSubmit = (data: GalleryFormValues) => {
     if (!firestore) {
       toast({ variant: 'destructive', title: 'Error', description: 'Firestore not initialized.' });
       return;
@@ -46,6 +47,7 @@ export default function CreateGalleryForm() {
     const galleryData = {
       name: data.name,
       slug: slug,
+      thumbnailUrl: '', // Initialize with an empty thumbnail
     };
 
     addDoc(collection(firestore, 'galleries'), galleryData)

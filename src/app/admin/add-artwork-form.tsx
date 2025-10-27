@@ -75,7 +75,7 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
     setIsSubmitting(true);
 
     try {
-      // Step 1: Upload images first
+      // Step 1: Upload images first, as this can fail.
       const storage = getStorage(app);
       const imageUrl = await uploadImage(storage, data.image[0], 'artworks');
       const thumbnailUrl = await uploadImage(storage, data.thumbnail[0], 'thumbnails');
@@ -91,39 +91,44 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
           categorySlug: galleries.find(g => g.id === data.galleryId)?.slug || '',
           imageUrl: imageUrl,
           thumbnailUrl: thumbnailUrl,
-          imageUrlId: `artwork-${Date.now()}` 
+          imageUrlId: `artwork-${Date.now()}`
       };
 
-      // Step 3: Add document to Firestore
-      await addDoc(collection(firestore, galleryRefPath), artworkData);
-
-      toast({
-          title: 'Artwork Added!',
-          description: `${data.title} has been successfully uploaded.`,
-      });
-      reset();
-      if (defaultGalleryId) {
-          setValue('galleryId', defaultGalleryId);
-      }
+      // Step 3: Add document to Firestore using a non-blocking promise chain
+      addDoc(collection(firestore, galleryRefPath), artworkData)
+        .then(() => {
+            toast({
+                title: 'Artwork Added!',
+                description: `${data.title} has been successfully uploaded.`,
+            });
+            reset();
+            if (defaultGalleryId) {
+                setValue('galleryId', defaultGalleryId);
+            }
+        })
+        .catch(async (serverError) => {
+            console.error('Firestore write failed:', serverError);
+            const permissionError = new FirestorePermissionError({
+                path: galleryRefPath,
+                operation: 'create',
+                requestResourceData: artworkData,
+            });
+            errorEmitter.emit('permission-error', permissionError);
+        })
+        .finally(() => {
+            // This will always run, un-sticking the UI
+            setIsSubmitting(false);
+        });
 
     } catch (error: any) {
-      console.error('An error occurred:', error);
-      // Check if it's a Firestore permission error
-      if (error.code === 'permission-denied') {
-         const permissionError = new FirestorePermissionError({
-            path: `galleries/${data.galleryId}/artworks`,
-            operation: 'create',
-        });
-        errorEmitter.emit('permission-error', permissionError);
-      }
+      // This outer catch handles errors from the image upload part (step 1)
+      console.error('An error occurred during image upload:', error);
       toast({
           variant: 'destructive',
-          title: 'An Unexpected Error Occurred',
-          description: error.message || 'Could not complete the operation.',
+          title: 'Image Upload Failed',
+          description: error.message || 'Could not upload images to storage.',
       });
-    } finally {
-        // This will always run, un-sticking the UI
-        setIsSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -193,4 +198,3 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
     </form>
   );
 }
-
