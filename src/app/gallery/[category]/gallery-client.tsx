@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 
@@ -95,7 +96,7 @@ export default function GalleryClient({ artworks }: GalleryClientProps) {
                 </Button>
               </motion.div>
               <div className="w-full md:w-1/3 p-6 flex flex-col overflow-y-auto">
-                <h2 className="font-headline text-4xl tracking-wide mb-2 text-primary">{selectedArtwork.title}</h2>
+                <DialogTitle className="font-headline text-4xl tracking-wide mb-2 text-primary">{selectedArtwork.title}</DialogTitle>
                 <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
                   <Badge variant="secondary">{selectedArtwork.medium}</Badge>
                   <span>{selectedArtwork.date}</span>
