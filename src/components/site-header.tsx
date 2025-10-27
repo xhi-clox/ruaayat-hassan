@@ -42,7 +42,6 @@ export function SiteHeader() {
                 ))}
                 </DropdownMenuContent>
             </DropdownMenu>
-             <Link href="/commissions" className="transition-colors hover:text-foreground/80 text-foreground/60">Commissions</Link>
             </nav>
             <div className="md:hidden">
             <Sheet>
@@ -66,7 +65,6 @@ export function SiteHeader() {
                             </Link>
                         ))}
                     </div>
-                     <Link href="/commissions" className="font-semibold">Commissions</Link>
                 </div>
                 </SheetContent>
             </Sheet>
