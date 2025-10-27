@@ -31,6 +31,9 @@ export function SiteFooter() {
             </Link>
           </Button>
         </div>
+        <Link href="/login" className="text-xs text-muted-foreground hover:text-foreground">
+          Admin
+        </Link>
       </div>
     </footer>
   );
