@@ -26,7 +26,7 @@ interface UseCollectionOptions {
 }
 
 export function useCollection<T extends DocumentData>(
-  path: string,
+  path: string | null, // Allow path to be null
   options?: UseCollectionOptions
 ) {
   const firestore = useFirestore();
@@ -35,8 +35,14 @@ export function useCollection<T extends DocumentData>(
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!firestore) return;
+    // If path is null, don't do anything. Reset state.
+    if (!firestore || !path) {
+      setData(null);
+      setLoading(false);
+      return;
+    }
 
+    setLoading(true);
     let colRef: Query = collection(firestore, path);
 
     if (options?.where) {

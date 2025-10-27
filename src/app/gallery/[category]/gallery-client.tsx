@@ -31,8 +31,9 @@ export default function GalleryClient({ categorySlug }: GalleryClientProps) {
   const gallery = galleries?.[0];
   const galleryId = gallery?.id;
 
+  // Only fetch artworks if we have a valid galleryId
   const { data: artworks, loading: artworksLoading } = useCollection<Artwork>(
-    galleryId ? `galleries/${galleryId}/artworks` : ''
+    galleryId ? `galleries/${galleryId}/artworks` : null
   );
   
   const loading = galleriesLoading || (galleryId && artworksLoading);
