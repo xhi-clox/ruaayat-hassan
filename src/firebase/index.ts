@@ -7,30 +7,25 @@ import { useDoc } from './firestore/use-doc';
 import { useUser } from './auth/use-user';
 import {
   FirebaseProvider,
-  FirebaseClientProvider,
-  useFirebase,
   useFirebaseApp,
-  useFirestore,
   useAuth,
+  useFirestore,
 } from './provider';
+import { FirebaseClientProvider } from './client-provider';
 
-let app: FirebaseApp | undefined;
-let auth: Auth | undefined;
-let firestore: Firestore | undefined;
-
+// This function should only be called on the client side.
 function initializeFirebase() {
-  if (typeof window !== 'undefined') {
-    if (!app) {
-      const apps = getApps();
-      if (apps.length > 0) {
-        app = apps[0];
-      } else {
-        app = initializeApp(firebaseConfig);
-      }
-      auth = getAuth(app);
-      firestore = getFirestore(app);
-    }
+  const apps = getApps();
+  let app: FirebaseApp;
+  if (apps.length > 0) {
+    app = apps[0] as FirebaseApp;
+  } else {
+    app = initializeApp(firebaseConfig);
   }
+
+  const auth = getAuth(app);
+  const firestore = getFirestore(app);
+
   return { app, auth, firestore };
 }
 
@@ -41,7 +36,6 @@ export {
   useCollection,
   useDoc,
   useUser,
-  useFirebase,
   useFirebaseApp,
   useFirestore,
   useAuth,

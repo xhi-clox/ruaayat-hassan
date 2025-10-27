@@ -1,25 +1,30 @@
 'use client';
 
-import { useAuth, useUser, useCollection, useDoc } from '@/firebase';
+import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import AddArtworkForm from './add-artwork-form';
 import CreateGalleryForm from './create-gallery-form';
 import UpdateProfilePicForm from './update-profile-pic-form';
-import type { Gallery, UserProfile } from '@/lib/types';
+import type { UserProfile } from '@/lib/types';
 import { useEffect } from 'react';
+import { useAuth, useDoc, useCollection } from '@/firebase';
+import type { Gallery } from '@/lib/types';
+import Link from 'next/link';
 
 export default function AdminPage() {
   const { user, loading: userLoading } = useUser();
   const { auth } = useAuth();
   const router = useRouter();
 
-  const { data: galleries, loading: galleriesLoading } = useCollection<Gallery>('galleries');
   // Fetch the 'admin' user profile for display and management purposes
-  const { data: userProfile, loading: profileLoading } = useDoc<UserProfile>('users/admin');
+  const { data: userProfile, loading: profileLoading } = useDoc<UserProfile>(
+    user ? `users/${user.uid}` : 'users/admin'
+  );
 
-  const loading = userLoading || galleriesLoading || profileLoading;
+  const { data: galleries, loading: galleriesLoading } = useCollection<Gallery>('galleries');
+  
+  const loading = userLoading || profileLoading || galleriesLoading;
 
   useEffect(() => {
     if (!userLoading && !user) {
@@ -27,21 +32,21 @@ export default function AdminPage() {
     }
   }, [user, userLoading, router]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  
   const handleLogout = async () => {
     if (auth) {
       await auth.signOut();
       router.push('/login');
     }
   };
-  
-  if (!user) {
-    return null; // Or a more specific loading/error state
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
-  
+
+  if (!user) {
+    return null;
+  }
+
   const welcomeEmail = userProfile?.email || user.email;
 
   return (
@@ -50,21 +55,36 @@ export default function AdminPage() {
         <h1 className="font-headline text-4xl">Admin Dashboard</h1>
         <Button onClick={handleLogout}>Logout</Button>
       </div>
-      <p className="mb-8">Welcome, {welcomeEmail}! This is your admin dashboard.</p>
+      <p className="mb-8">
+        Welcome, {welcomeEmail}! This is your admin dashboard.
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Add New Artwork</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {galleries && galleries.length > 0 ? (
-              <AddArtworkForm galleries={galleries} />
-            ) : (
-              <p>Please create a gallery first before adding artwork.</p>
-            )}
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
+           <Card>
+            <CardHeader>
+              <CardTitle>Manage Galleries</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {galleries && galleries.length > 0 ? (
+                <ul className="space-y-2">
+                  {galleries.map((gallery) => (
+                    <li key={gallery.id} className="flex justify-between items-center p-3 bg-secondary rounded-md">
+                      <span className="font-semibold">{gallery.name}</span>
+                       <Button asChild variant="outline" size="sm">
+                        <Link href={`/admin/gallery/${gallery.id}`}>
+                          View Artworks
+                        </Link>
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No galleries found. Create one to get started.</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
         
         <div className="space-y-8">
           <Card>
@@ -75,7 +95,7 @@ export default function AdminPage() {
               <CreateGalleryForm />
             </CardContent>
           </Card>
-          
+
           {userProfile && (
             <Card>
               <CardHeader>
@@ -86,26 +106,6 @@ export default function AdminPage() {
               </CardContent>
             </Card>
           )}
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Existing Galleries</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {galleries && galleries.length > 0 ? (
-                <ul className="space-y-2">
-                  {galleries.map((gallery) => (
-                    <li key={gallery.id} className="flex justify-between items-center p-2 bg-secondary rounded-md">
-                      <span>{gallery.name}</span>
-                      {/* Edit/Delete buttons can be added here in the future */}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No galleries found.</p>
-              )}
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

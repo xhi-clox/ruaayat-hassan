@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -6,11 +8,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { CATEGORIES } from "@/lib/data";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Menu,ChevronDown } from "lucide-react";
+import { useCollection } from "@/firebase";
+import type { Gallery } from "@/lib/types";
 
 export function SiteHeader() {
+  const { data: galleries } = useCollection<Gallery>('galleries');
+  const categories = galleries || [];
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
@@ -29,13 +35,14 @@ export function SiteHeader() {
                 </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                {CATEGORIES.map(category => (
+                {categories.map(category => (
                     <DropdownMenuItem key={category.slug} asChild>
                     <Link href={`/gallery/${category.slug}`}>{category.name}</Link>
                     </DropdownMenuItem>
                 ))}
                 </DropdownMenuContent>
             </DropdownMenu>
+             <Link href="/commissions" className="transition-colors hover:text-foreground/80 text-foreground/60">Commissions</Link>
             </nav>
             <div className="md:hidden">
             <Sheet>
@@ -53,12 +60,13 @@ export function SiteHeader() {
                     <Link href="/" className="font-semibold">Home</Link>
                     <div className="grid gap-2">
                         <p className="font-semibold">Galleries</p>
-                        {CATEGORIES.map(category => (
+                        {categories.map(category => (
                             <Link key={category.slug} href={`/gallery/${category.slug}`} className="text-muted-foreground transition-colors hover:text-foreground">
                                 {category.name}
                             </Link>
                         ))}
                     </div>
+                     <Link href="/commissions" className="font-semibold">Commissions</Link>
                 </div>
                 </SheetContent>
             </Sheet>

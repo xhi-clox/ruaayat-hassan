@@ -8,24 +8,23 @@ import { ArrowRight, Palette, PenTool, Pencil, Handshake, UserRound, TabletSmart
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn, getPlaceholderImage } from '@/lib/utils';
-import { CATEGORIES } from '@/lib/data';
 import HeroAnimation from '@/components/hero-animation';
-import type { UserProfile } from '@/lib/types';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-
+import type { Gallery } from '@/lib/types';
+import { useCollection } from '@/firebase';
 
 const categoryIcons: { [key: string]: React.ReactNode } = {
   'digital-arts': <TabletSmartphone className="size-8 text-accent" />,
   'realism-portraits': <UserRound className="size-8 text-accent" />,
   'water-colour-paintings': <Palette className="size-8 text-accent" />,
-  inking: <PenTool className="size-8 text-accent" />,
+  'inking': <PenTool className="size-8 text-accent" />,
   'pencil-sketches': <Pencil className="size-8 text-accent" />,
-  commissions: <Handshake className="size-8 text-accent" />,
+  'commissions': <Handshake className="size-8 text-accent" />,
 };
 
 export default function Home() {
   const heroAvatar = getPlaceholderImage('hero-avatar');
-  const galleryCategories = CATEGORIES.filter(c => c.slug !== 'commissions');
+  const { data: galleries, loading: galleriesLoading } = useCollection<Gallery>('galleries');
+  const galleryCategories = galleries?.filter(g => g.slug !== 'commissions') || [];
 
   return (
     <div className="container mx-auto px-4">
@@ -76,9 +75,16 @@ export default function Home() {
         <h2 className="text-center font-headline text-5xl tracking-wider mb-12">
           Explore My Gallery
         </h2>
+        {galleriesLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[...Array(3)].map((_, i) => (
+                    <Card key={i} className="h-[400px]"><CardContent className="p-6 h-full w-full animate-pulse bg-muted"></CardContent></Card>
+                ))}
+            </div>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {galleryCategories.map((category) => {
-            const image = PlaceHolderImages.find(p => p.id === `category-${category.slug}`);
+            const image = getPlaceholderImage(`category-${category.slug}`);
             return (
               <Link href={`/gallery/${category.slug}`} key={category.slug} className="group block">
                 <Card className="overflow-hidden h-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2 border-2 border-transparent hover:border-primary/50">
@@ -116,6 +122,7 @@ export default function Home() {
             );
           })}
         </div>
+        )}
       </section>
     </div>
   );

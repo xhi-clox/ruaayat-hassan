@@ -19,6 +19,10 @@ export function FirebaseProvider({
   children,
   ...props
 }: { children: ReactNode } & FirebaseContextType) {
+  if (!props.app || !props.auth || !props.firestore) {
+    return <>{children}</>;
+  }
+  
   return (
     <FirebaseContext.Provider value={props}>
       {children}
@@ -35,12 +39,6 @@ export const useFirebase = () => {
   return context;
 };
 
-export const useFirebaseApp = () => {
-    const context = useContext(FirebaseContext);
-    if (context === undefined) {
-        throw new Error('useFirebaseApp must be used within a FirebaseProvider');
-    }
-    return context.app;
-};
+export const useFirebaseApp = () => useFirebase().app;
 export const useAuth = () => useFirebase();
 export const useFirestore = () => useFirebase().firestore;

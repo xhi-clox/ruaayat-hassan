@@ -38,10 +38,11 @@ type ArtworkFormValues = z.infer<typeof artworkSchema>;
 
 type AddArtworkFormProps = {
   galleries: Gallery[];
+  defaultGalleryId?: string;
 };
 
-export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
-  const { app } = useFirebaseApp();
+export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtworkFormProps) {
+  const app = useFirebaseApp();
   const firestore = useFirestore();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,12 +53,16 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
     formState: { errors },
     reset,
     setValue,
+    control,
   } = useForm<ArtworkFormValues>({
     resolver: zodResolver(artworkSchema),
+    defaultValues: {
+      galleryId: defaultGalleryId || '',
+    }
   });
 
-  const uploadImage = async (storage: any, imageFile: File) => {
-    const storageRef = ref(storage, `artworks/${Date.now()}_${imageFile.name}`);
+  const uploadImage = async (storage: any, imageFile: File, folder: string) => {
+    const storageRef = ref(storage, `${folder}/${Date.now()}_${imageFile.name}`);
     const uploadResult = await uploadBytes(storageRef, imageFile);
     return await getDownloadURL(uploadResult.ref);
   }
@@ -73,10 +78,10 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
     try {
         const storage = getStorage(app);
         
-        const imageUrl = await uploadImage(storage, data.image[0]);
-        const thumbnailUrl = await uploadImage(storage, data.thumbnail[0]);
+        const imageUrl = await uploadImage(storage, data.image[0], 'artworks');
+        const thumbnailUrl = await uploadImage(storage, data.thumbnail[0], 'thumbnails');
 
-        const galleryRef = `galleries/${data.galleryId}/artworks`;
+        const galleryRefPath = `galleries/${data.galleryId}/artworks`;
         const artworkData = {
             title: data.title,
             date: data.date,
@@ -89,17 +94,22 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
             imageUrlId: `artwork-${Date.now()}` 
         };
 
-        addDoc(collection(firestore, galleryRef), artworkData)
+        const docRef = collection(firestore, galleryRefPath);
+        addDoc(docRef, artworkData)
         .then(() => {
             toast({
                 title: 'Artwork Added!',
                 description: `${data.title} has been successfully uploaded.`,
             });
             reset();
+             if (defaultGalleryId) {
+                setValue('galleryId', defaultGalleryId);
+            }
         })
         .catch(async (serverError) => {
+            console.error("Firestore Error:", serverError);
             const permissionError = new FirestorePermissionError({
-                path: galleryRef,
+                path: galleryRefPath,
                 operation: 'create',
                 requestResourceData: artworkData,
             });
@@ -130,7 +140,11 @@ export default function AddArtworkForm({ galleries }: AddArtworkFormProps) {
 
       <div className="space-y-2">
         <Label htmlFor="galleryId">Gallery</Label>
-        <Select onValueChange={(value) => setValue('galleryId', value)}>
+        <Select
+            onValueChange={(value) => setValue('galleryId', value)}
+            defaultValue={defaultGalleryId}
+            disabled={!!defaultGalleryId}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Select a gallery" />
           </SelectTrigger>
