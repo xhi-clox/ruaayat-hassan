@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/lib/data";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Menu,ChevronDown } from "lucide-react";
 
 export function SiteHeader() {
@@ -45,6 +45,9 @@ export function SiteHeader() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
+              <SheetHeader className="text-left">
+                  <SheetTitle className="font-headline text-2xl tracking-wider">Menu</SheetTitle>
+              </SheetHeader>
               <div className="grid gap-4 py-6">
                 <Link href="/" className="font-semibold">Home</Link>
                 <div className="grid gap-2">
