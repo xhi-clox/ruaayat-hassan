@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowDown, ArrowRight, Palette, PenTool, Pencil, Handshake, UserRound, TabletSmartphone, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import { ArrowRight, Palette, PenTool, Pencil, Handshake, UserRound, TabletSmartphone, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
@@ -35,14 +35,6 @@ export default function Home() {
         <p className="mt-6 font-bio text-2xl md:text-3xl text-foreground/80 max-w-3xl leading-relaxed">
           Hi, I’m RUBAYAT, an 18-year-old artist who loves creating both digitally and traditionally. I work with digital art, inking, and painting — whatever helps bring my ideas to life. My style is a mix of mood, character, and a bit of pop culture. Sometimes it’s clean, sometimes messy — but always personal. I’m still growing, still experimenting, and always making something that feels true to me.
         </p>
-        <div className="mt-8 relative flex flex-col items-center">
-            <HeroAnimation variant="small">
-                <Link href="#gallery" className="group inline-flex flex-col items-center text-foreground/80 hover:text-foreground transition-colors duration-300">
-                    <span className="font-bio text-3xl tracking-wider text-primary">See My Artworks</span>
-                    <ArrowDown className="mt-1 size-7 animate-bounce text-primary" />
-                </Link>
-            </HeroAnimation>
-        </div>
         <div className="mt-12 flex flex-col items-center gap-2">
             <div className="flex items-center gap-4">
                 <Link href="#" aria-label="Facebook" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
