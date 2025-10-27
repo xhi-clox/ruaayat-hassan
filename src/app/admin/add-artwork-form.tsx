@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -6,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc } from 'firebase/firestore';
-import { useFirestore, useFirebaseApp } from '@/firebase';
+import { useAuth } from '@/firebase';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -42,8 +43,7 @@ type AddArtworkFormProps = {
 };
 
 export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtworkFormProps) {
-  const { app } = useFirebaseApp();
-  const firestore = useFirestore();
+  const { app, firestore } = useAuth();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -74,14 +74,11 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
 
     setIsSubmitting(true);
 
-    let imageUrl = '';
-    let thumbnailUrl = '';
-
     try {
       // Step 1: Upload images first
       const storage = getStorage(app);
-      imageUrl = await uploadImage(storage, data.image[0], 'artworks');
-      thumbnailUrl = await uploadImage(storage, data.thumbnail[0], 'thumbnails');
+      const imageUrl = await uploadImage(storage, data.image[0], 'artworks');
+      const thumbnailUrl = await uploadImage(storage, data.thumbnail[0], 'thumbnails');
 
       // Step 2: Prepare data for Firestore
       const galleryRefPath = `galleries/${data.galleryId}/artworks`;
@@ -117,6 +114,12 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
               requestResourceData: artworkData,
           });
           errorEmitter.emit('permission-error', permissionError);
+          // Also show a toast to the user
+          toast({
+            variant: 'destructive',
+            title: 'Permission Denied',
+            description: 'Could not save artwork. Check permissions.',
+          });
         })
         .finally(() => {
           // This will always run, un-sticking the UI
@@ -124,14 +127,14 @@ export default function AddArtworkForm({ galleries, defaultGalleryId }: AddArtwo
         });
 
     } catch (error: any) {
-      // This outer catch handles failures from image uploads
-      console.error('Error during image upload:', error);
+      // This outer catch handles failures from image uploads or other unexpected errors
+      console.error('An error occurred:', error);
       toast({
           variant: 'destructive',
-          title: 'Upload Failed',
-          description: error.message || 'Could not upload images.',
+          title: 'An Unexpected Error Occurred',
+          description: error.message || 'Could not complete the operation.',
       });
-      setIsSubmitting(false); // Ensure submission state is reset on upload failure
+      setIsSubmitting(false); // Ensure submission state is reset on any failure
     }
   };
 

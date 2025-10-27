@@ -19,12 +19,10 @@ export function FirebaseProvider({
   children,
   ...props
 }: { children: ReactNode } & FirebaseContextType) {
-  if (!props.app || !props.auth || !props.firestore) {
-    return <>{children}</>;
-  }
+  const value = props;
   
   return (
-    <FirebaseContext.Provider value={props}>
+    <FirebaseContext.Provider value={value}>
       {children}
       <FirebaseErrorListener />
     </FirebaseContext.Provider>
