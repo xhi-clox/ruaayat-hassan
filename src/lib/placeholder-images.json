@@ -3,32 +3,8 @@
     {
       "id": "hero-avatar",
       "description": "Anime avatar of the artist",
-      "imageUrl": "https://images.unsplash.com/photo-1599083481037-679e78b4bf34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNXx8c2V4eSUyMGFuaW1lJTIwY29zcGxheXxlbnwwfHx8fDE3NjE2NDMyNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "anime cosplay"
-    },
-    {
-      "id": "hero-bg-1",
-      "description": "Abstract digital background 1",
-      "imageUrl": "https://images.unsplash.com/photo-1622737133809-d95047b9e673?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhYnN0cmFjdCUyMGRpZ2l0YWx8ZW58MHx8fHwxNzYxNTA2OTgyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract digital"
-    },
-    {
-      "id": "hero-bg-2",
-      "description": "Abstract digital background 2",
-      "imageUrl": "https://images.unsplash.com/photo-1561344640-2453889cde5b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y3liZXJwdW5rJTIwY2l0eXxlbnwwfHx8fDE3NjE1MDQwNzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "cyberpunk city"
-    },
-    {
-      "id": "hero-bg-3",
-      "description": "Abstract digital background 3",
-      "imageUrl": "https://images.unsplash.com/photo-1760954185909-772b3d386550?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmYW50YXN5JTIwd2FycmlvcnxlbnwwfHx8fDE3NjE0OTEyMjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "fantasy warrior"
-    },
-    {
-      "id": "hero-bg-4",
-      "description": "Abstract digital background 4",
-      "imageUrl": "https://images.unsplash.com/photo-1598368195835-91e67f80c9d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhcmNoaXRlY3R1cmUlMjBza2V0Y2h8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "architecture sketch"
+      "imageUrl": "https://images.unsplash.com/photo-1630278665037-fe7fa9520a23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhbmltZSUyMGFydGlzdHxlbnwwfHx8fDE3NjE1Njg2MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "anime artist"
     },
     {
       "id": "category-digital-arts",
@@ -75,13 +51,13 @@
     {
       "id": "digital-art-2",
       "description": "Fantasy character concept",
-      "imageUrl": "https://images.unsplash.com/photo-1760954185909-772b3d386550?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmYW50YXN5JTIwd2FycmlvcnxlbnwwfHx8fDE3NjE0OTEyMjl8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1760954185909-772b3d386550?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmYW50YXN5JTIwd2FycmlvcnxlbnwwfHx8fDE3NjE0OTEyMjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "fantasy warrior"
     },
     {
       "id": "digital-art-3",
       "description": "Surreal landscape",
-      "imageUrl": "https://images.unsplash.com/photo-1652615676468-f18e80a5fe7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdXJyZWFsJTIwbGFuZHNjYXBlfGVufDB8fHx8MTc2MTUxMzQzMnww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1652615676468-f18e80a5fe7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdXJyZWFsJTIwbGFuZHNjYXBlfGVufDB8fHx8MTc2MTUxMzQzMnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "surreal landscape"
     },
     {
@@ -93,7 +69,7 @@
     {
       "id": "realism-1",
       "description": "Detailed eye portrait",
-      "imageUrl": "https://images.unsplash.com/photo-1707167144685-6e83ca79c483?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZWFsaXN0aWMlMjBleWV8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1707167144685-6e83ca79c483?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZWFsaXN0aWMlMjBleWV8ZW58MHx8fHwxNzYxNTY4NjMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "realistic eye"
     },
     {
