@@ -27,10 +27,10 @@ export default function HeroAnimation({ heroAvatarUrl }: HeroAnimationProps) {
       <div className="absolute inset-0">
         <BackgroundCard className="w-[70%] h-[50%] top-[5%] left-0 rotate-[-15deg]" delay={0} />
         <BackgroundCard className="w-[60%] h-[60%] top-[20%] right-0 rotate-[10deg]" delay={0.2} />
-        <BackgroundCard className="w-[50%] h-[40%] bottom-[5%] left-[10%] rotate-[5deg]" delay={0.4} initialProps={{ opacity: 0, x: -40, rotate: 10, scale: 0.9 }} />
+        <BackgroundCard className="w-[50%] h-[40%] bottom-[5%] left-[10%] rotate-[5deg]" delay={0.4} initialProps={{ opacity: 0, y: 50, rotate: 10, scale: 0.9 }} />
         <BackgroundCard className="w-[40%] h-[30%] bottom-[15%] right-[5%] rotate-[-5deg]" delay={0.6} />
 
-        <div className="absolute inset-0 bg-radial-gradient from-transparent to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle,transparent_40%,hsl(var(--background)/0.2)_100%)]" />
       </div>
 
       <motion.div
