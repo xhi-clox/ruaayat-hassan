@@ -4,6 +4,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Palette, PenTool, Pencil, Handshake, UserRound, TabletSmartphone, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,16 @@ const categoryIcons: { [key: string]: React.ReactNode } = {
   'pencil-sketches': <Pencil className="size-8 text-accent" />,
   'commissions': <Handshake className="size-8 text-accent" />,
 };
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  },
+};
+
 
 export default function Home() {
   const heroAvatar = getPlaceholderImage('hero-avatar');
@@ -58,7 +69,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="my-8 md:my-12 py-12 sm:py-16 bg-card/50 rounded-2xl shadow-lg">
+      <motion.section 
+        className="my-8 md:my-12 py-12 sm:py-16 bg-card/50 rounded-2xl shadow-lg"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
         <div className="grid grid-cols-1 items-center gap-8 sm:gap-12 px-6 sm:px-8 md:px-16">
           <div className="text-center">
             <h2 className="font-headline text-4xl sm:text-5xl text-primary mb-4 tracking-wide">
@@ -69,9 +86,16 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section id="gallery" className="my-16 md:my-24 scroll-mt-20">
+      <motion.section 
+        id="gallery" 
+        className="my-16 md:my-24 scroll-mt-20"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
         <h2 className="text-center font-headline text-4xl sm:text-5xl tracking-wider mb-12">
           Explore My Gallery
         </h2>
@@ -123,7 +147,7 @@ export default function Home() {
           })}
         </div>
         )}
-      </section>
+      </motion.section>
     </div>
   );
 }
