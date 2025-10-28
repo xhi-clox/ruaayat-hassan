@@ -91,15 +91,15 @@ export default function AdminPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="font-headline text-4xl">Admin Dashboard</h1>
+      <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
+        <h1 className="font-headline text-3xl md:text-4xl">Admin Dashboard</h1>
         <Button onClick={handleLogout}>Logout</Button>
       </div>
-      <p className="mb-8">
+      <p className="mb-8 text-sm md:text-base">
         Welcome, {welcomeEmail}! This is your admin dashboard.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
            <Card>
             <CardHeader>
@@ -109,8 +109,8 @@ export default function AdminPage() {
               {galleries && galleries.length > 0 ? (
                 <ul className="space-y-4">
                   {galleries.map((gallery) => (
-                    <li key={gallery.id} className="flex items-center gap-4 p-3 bg-secondary rounded-md">
-                        <div className="relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-md border">
+                    <li key={gallery.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 bg-secondary rounded-md">
+                        <div className="relative h-24 w-full sm:h-16 sm:w-24 flex-shrink-0 overflow-hidden rounded-md border">
                             {gallery.thumbnailUrl ? (
                                 <Image src={gallery.thumbnailUrl} alt={gallery.name} fill className="object-cover" />
                             ) : (
@@ -122,8 +122,8 @@ export default function AdminPage() {
                       <div className="flex-grow">
                         <span className="font-semibold">{gallery.name}</span>
                       </div>
-                      <div className="flex gap-2">
-                        <Button asChild variant="outline" size="sm">
+                      <div className="flex gap-2 w-full sm:w-auto">
+                        <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
                           <Link href={`/admin/gallery/${gallery.id}`}>
                             <Pencil className="mr-2 h-3 w-3" /> Manage
                           </Link>
@@ -133,7 +133,7 @@ export default function AdminPage() {
                           itemName={gallery.name}
                           itemType="gallery"
                         >
-                           <Button variant="destructive" size="sm">
+                           <Button variant="destructive" size="sm" className="flex-1 sm:flex-none">
                             <Trash2 className="mr-2 h-3 w-3" /> Delete
                           </Button>
                         </DeleteConfirmationDialog>
