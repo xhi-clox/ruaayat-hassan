@@ -23,6 +23,28 @@ type GalleryClientProps = {
   categorySlug: string;
 };
 
+const galleryVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const artworkVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    }
+  }
+};
+
 export default function GalleryClient({ categorySlug }: GalleryClientProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -82,10 +104,16 @@ export default function GalleryClient({ categorySlug }: GalleryClientProps) {
             ))}
          </div>
       ) : (
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+        <motion.div 
+          className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4"
+          variants={galleryVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {artworks?.map((artwork) => (
-            <div
+            <motion.div
               key={artwork.id}
+              variants={artworkVariants}
               className="group relative break-inside-avoid overflow-hidden rounded-lg shadow-lg cursor-pointer"
               onClick={() => setSelectedId(artwork.id)}
             >
@@ -107,9 +135,9 @@ export default function GalleryClient({ categorySlug }: GalleryClientProps) {
                   <Maximize className="text-white size-5" />
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
 
       <AnimatePresence>

@@ -27,7 +27,16 @@ const sectionVariants = {
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.2 }
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" }
   },
 };
 
@@ -106,46 +115,54 @@ export default function Home() {
                 ))}
             </div>
         ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           {galleryCategories.map((category) => {
             const image = getPlaceholderImage(`category-${category.slug}`);
             return (
-              <Link href={`/gallery/${category.slug}`} key={category.slug} className="group block">
-                <Card className="overflow-hidden h-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2 border-2 border-transparent hover:border-primary/50">
-                  <CardContent className="p-0 flex flex-col h-full">
-                    <div className="relative h-60 w-full">
-                      {image && (
-                        <Image
-                          src={image.imageUrl}
-                          alt={image.description}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          data-ai-hint={image.imageHint}
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                    </div>
-                    <div className="p-6 bg-card flex-grow flex flex-col justify-between">
-                      <div>
-                        <div className="mb-4">
-                          {categoryIcons[category.slug]}
+              <motion.div key={category.slug} variants={cardVariants}>
+                <Link href={`/gallery/${category.slug}`} className="group block h-full">
+                  <Card className="overflow-hidden h-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2 border-2 border-transparent hover:border-primary/50">
+                    <CardContent className="p-0 flex flex-col h-full">
+                      <div className="relative h-60 w-full">
+                        {image && (
+                          <Image
+                            src={image.imageUrl}
+                            alt={image.description}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            data-ai-hint={image.imageHint}
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                      </div>
+                      <div className="p-6 bg-card flex-grow flex flex-col justify-between">
+                        <div>
+                          <div className="mb-4">
+                            {categoryIcons[category.slug]}
+                          </div>
+                          <h3 className="font-headline text-3xl tracking-wide">
+                            {category.name}
+                          </h3>
                         </div>
-                        <h3 className="font-headline text-3xl tracking-wide">
-                          {category.name}
-                        </h3>
+                        <div className="mt-4 flex items-center text-primary font-semibold">
+                          <span>View Collection</span>
+                          <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        </div>
                       </div>
-                      <div className="mt-4 flex items-center text-primary font-semibold">
-                        <span>View Collection</span>
-                        <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
         )}
       </motion.section>
     </div>
