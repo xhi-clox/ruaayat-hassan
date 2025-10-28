@@ -26,35 +26,70 @@ export default function Home() {
   const { data: galleries, loading: galleriesLoading } = useCollection<Gallery>('galleries');
   const galleryCategories = galleries?.filter(g => g.slug !== 'commissions') || [];
 
+  const bgImages = [
+    getPlaceholderImage('hero-bg-1'),
+    getPlaceholderImage('hero-bg-2'),
+    getPlaceholderImage('hero-bg-3'),
+    getPlaceholderImage('hero-bg-4'),
+  ];
+
   return (
     <div className="container mx-auto px-4">
       <section className="flex flex-col items-center text-center pt-8 md:pt-12 pb-16 md:pb-24 relative overflow-hidden">
-        <HeroAnimation heroAvatarUrl={heroAvatar?.imageUrl} />
-        <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl tracking-wider mt-4">
-          RUBAYAT HASSAN
-        </h1>
-        <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl">
-          Creative Illustrator & Digital Artist
-        </p>
-        <p className="mt-6 font-bio text-2xl md:text-3xl text-foreground/80 max-w-3xl leading-relaxed">
-          Hi, I’m RUBAYAT, an 18-year-old artist who loves creating both digitally and traditionally. I work with digital art, inking, and painting — whatever helps bring my ideas to life. My style is a mix of mood, character, and a bit of pop culture. Sometimes it’s clean, sometimes messy — but always personal. I’m still growing, still experimenting, and always making something that feels true to me.
-        </p>
-        <div className="mt-12 flex flex-col items-center gap-2">
-            <div className="flex items-center gap-4">
-                <Link href="#" aria-label="Facebook" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
-                  <Facebook className="h-8 w-8 transition-all" />
-                </Link>
-                <Link href="#" aria-label="Instagram" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
-                  <Instagram className="h-8 w-8 transition-all" />
-                </Link>
-                <Link href="#" aria-label="X / Twitter" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
-                  <Twitter className="h-8 w-8 transition-all" />
-                </Link>
-                <Link href="#" aria-label="YouTube" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
-                  <Youtube className="h-8 w-8 transition-all" />
-                </Link>
-            </div>
-            <p className="text-sm text-foreground/60 mt-2">Follow me on social media</p>
+        <div className="absolute inset-0 z-0 opacity-20">
+          {bgImages.map((img, i) =>
+            img ? (
+              <div
+                key={img.id}
+                className="absolute animate-drift"
+                style={{
+                  animationDelay: `${i * 5}s`,
+                  animationDuration: `${20 + i * 5}s`,
+                  top: `${10 + i * 15}%`,
+                  left: i % 2 === 0 ? `${10 + i * 10}%` : undefined,
+                  right: i % 2 !== 0 ? `${10 + i * 10}%` : undefined,
+                }}
+              >
+                <Image
+                  src={img.imageUrl}
+                  alt={img.description}
+                  width={400}
+                  height={600}
+                  className="w-auto h-auto max-w-xs md:max-w-sm lg:max-w-md opacity-10 rounded-lg shadow-2xl shadow-black/50"
+                />
+              </div>
+            ) : null
+          )}
+        </div>
+
+        <div className="relative z-10">
+          <HeroAnimation heroAvatarUrl={heroAvatar?.imageUrl} />
+          <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl tracking-wider mt-4">
+            RUBAYAT HASSAN
+          </h1>
+          <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl">
+            Creative Illustrator & Digital Artist
+          </p>
+          <p className="mt-6 font-bio text-2xl md:text-3xl text-foreground/80 max-w-3xl leading-relaxed">
+            Hi, I’m RUBAYAT, an 18-year-old artist who loves creating both digitally and traditionally. I work with digital art, inking, and painting — whatever helps bring my ideas to life. My style is a mix of mood, character, and a bit of pop culture. Sometimes it’s clean, sometimes messy — but always personal. I’m still growing, still experimenting, and always making something that feels true to me.
+          </p>
+          <div className="mt-12 flex flex-col items-center gap-2">
+              <div className="flex items-center gap-4">
+                  <Link href="#" aria-label="Facebook" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+                    <Facebook className="h-8 w-8 transition-all" />
+                  </Link>
+                  <Link href="#" aria-label="Instagram" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+                    <Instagram className="h-8 w-8 transition-all" />
+                  </Link>
+                  <Link href="#" aria-label="X / Twitter" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+                    <Twitter className="h-8 w-8 transition-all" />
+                  </Link>
+                  <Link href="#" aria-label="YouTube" className="p-3 text-foreground/70 transition-all hover:text-primary hover:scale-110 hover:[&>svg]:drop-shadow-[0_0_5px_hsl(var(--primary))]">
+                    <Youtube className="h-8 w-8 transition-all" />
+                  </Link>
+              </div>
+              <p className="text-sm text-foreground/60 mt-2">Follow me on social media</p>
+          </div>
         </div>
       </section>
 

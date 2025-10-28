@@ -76,4 +76,14 @@
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
+   @keyframes drift {
+    0% { transform: translateY(0) translateX(0) scale(1) rotate(0deg); opacity: 0.1; }
+    25% { transform: translateY(-30px) translateX(20px) scale(1.05) rotate(3deg); opacity: 0.2; }
+    50% { transform: translateY(0) translateX(40px) scale(1) rotate(0deg); opacity: 0.1; }
+    75% { transform: translateY(30px) translateX(20px) scale(0.95) rotate(-3deg); opacity: 0.2; }
+    100% { transform: translateY(0) translateX(0) scale(1) rotate(0deg); opacity: 0.1; }
+  }
+  .animate-drift {
+    animation: drift 20s ease-in-out infinite;
+  }
 }
