@@ -16,6 +16,9 @@ export default {
       },
     },
     extend: {
+      backgroundImage: {
+        'radial-gradient': 'radial-gradient(circle, var(--tw-gradient-stops))',
+      },
       fontFamily: {
         body: ['Inter', 'sans-serif'],
         headline: ['Bebas Neue', 'sans-serif'],

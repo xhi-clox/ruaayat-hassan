@@ -29,7 +29,7 @@ export default function HeroAnimation({ heroAvatarUrl }: HeroAnimationProps) {
         <BackgroundCard className="w-[50%] h-[40%] bottom-[5%] left-[10%] rotate-[5deg]" delay={0.4} />
         <BackgroundCard className="w-[40%] h-[30%] bottom-[15%] right-[5%] rotate-[-5deg]" delay={0.6} />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+        <div className="absolute inset-0 bg-radial-gradient from-transparent to-background" />
       </div>
 
       <motion.div
