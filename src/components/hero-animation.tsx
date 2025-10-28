@@ -2,92 +2,69 @@
 "use client";
 
 import Image from 'next/image';
-import { Droplets, Palette, PenTool, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { getPlaceholderImage } from '@/lib/utils';
 
 type HeroAnimationProps = {
   heroAvatarUrl?: string | null;
   variant?: 'default' | 'small';
 };
 
-const OrbitingIcon = ({ children, className, style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
-  <div
-    className={`absolute ${className}`}
-    style={style}
-  >
-    {children}
-  </div>
+const BackgroundCard = ({ className, delay = 0 }: { className?: string, delay?: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 50, rotate: -10 }}
+    animate={{ opacity: 1, y: 0, rotate: 0 }}
+    transition={{ duration: 0.8, delay, ease: 'easeOut' }}
+    className={cn(
+      "absolute rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 backdrop-blur-md border border-white/10 shadow-lg",
+      className
+    )}
+  />
 );
 
 export default function HeroAnimation({ heroAvatarUrl, variant = 'default' }: HeroAnimationProps) {
-  const containerSize = variant === 'default' ? 'h-72 w-72 md:h-96 md:w-96' : 'h-24 w-80';
-  const imageSize = variant === 'default' ? 'h-64 w-64 md:h-80 md:w-80' : 'h-24 w-24';
-
-  const icons = [
-    { icon: <Palette className="size-8 md:size-10" />, top: '0', left: '10', delay: '0s' },
-    { icon: <Sparkles className="size-6 md:size-8" />, top: '1/4', right: '0', delay: '1.5s' },
-    { icon: <PenTool className="size-7 md:size-9" />, top: 'auto', bottom: '1/4', left: '0', delay: '3s' },
-    { icon: <Droplets className="size-8 md:size-10" />, top: 'auto', bottom: '0', right: '10', delay: '4.5s' },
-  ];
-
-  if (variant === 'small') {
-    return (
-      <div className={cn("relative flex justify-center items-center", containerSize)}>
-        {icons.map((item, index) => (
-            <OrbitingIcon 
-                key={index}
-                className={cn(
-                    'animate-float text-foreground/20', // Changed color
-                    {
-                        'top-0 left-10': index === 0,
-                        'top-0 right-10': index === 1,
-                        'bottom-0 left-20': index === 2,
-                        'bottom-0 right-20': index === 3,
-                    }
-                )}
-                style={{ animationDelay: `${index * 0.8}s`, transform: 'scale(0.4)' }} // Made smaller
-            >
-                {item.icon}
-            </OrbitingIcon>
-        ))}
-      </div>
-    )
-  }
+    if (variant === 'small') {
+        return <div className="h-24 w-80" />;
+    }
 
   return (
-    <div className={cn("relative mb-8 flex justify-center items-center", containerSize)}>
-      {icons.map((item, index) => (
-        <OrbitingIcon 
-          key={index}
-          className="animate-float text-primary opacity-60"
-          style={{ 
-            animationDelay: item.delay,
-            top: item.top,
-            left: item.left,
-            right: item.right,
-            bottom: item.bottom,
-           }}
-        >
-          {item.icon}
-        </OrbitingIcon>
-      ))}
-      
-      {heroAvatarUrl && (
-        <div className={cn(
-            "relative rounded-full overflow-hidden bg-background/50",
-            imageSize
-        )}>
-          <Image
-              src={heroAvatarUrl}
-              alt={"Rubayat Hassan's avatar"}
-              fill
-              priority
-              sizes="(max-width: 768px) 50vw, 33vw"
-              data-ai-hint={"anime artist"}
-              className="object-cover"
-          />
+    <div className="relative mb-8 flex h-72 w-72 items-center justify-center md:h-96 md:w-96">
+      <div className="absolute inset-0">
+        <BackgroundCard className="w-[70%] h-[50%] top-[5%] left-0" delay={0} />
+        <BackgroundCard className="w-[60%] h-[60%] top-[20%] right-0" delay={0.2} />
+        <BackgroundCard className="w-[50%] h-[40%] bottom-0 left-[10%]" delay={0.4} />
+        <BackgroundCard className="w-[40%] h-[30%] bottom-[10%] right-[5%]" delay={0.6} />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+      </div>
+
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
+        className="relative"
+      >
+        <div className="absolute -inset-2 rounded-full bg-primary/80 blur-xl"></div>
+        <div className="relative rounded-full p-2 bg-gradient-to-br from-primary to-accent">
+          <div className={cn(
+              "relative rounded-full overflow-hidden bg-background",
+              "h-64 w-64 md:h-80 md:w-80"
+          )}>
+            {heroAvatarUrl && (
+              <Image
+                  src={heroAvatarUrl}
+                  alt={"Rubayat Hassan's avatar"}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  data-ai-hint={"anime artist"}
+                  className="object-cover"
+              />
+            )}
+          </div>
         </div>
-      )}
+      </motion.div>
     </div>
   );
 }
