@@ -98,75 +98,78 @@ export default function AdminPage() {
         Welcome, {welcomeEmail}! This is your admin dashboard.
       </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-           <Card>
+      <div className="space-y-8">
+        <Card>
             <CardHeader>
-              <CardTitle>Manage Galleries</CardTitle>
+                <CardTitle>Create New Gallery</CardTitle>
             </CardHeader>
             <CardContent>
-              {galleries && galleries.length > 0 ? (
-                <ul className="space-y-4">
-                  {galleries.map((gallery) => (
-                    <li key={gallery.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 bg-secondary rounded-md">
-                        <div className="relative h-24 w-full sm:h-16 sm:w-24 flex-shrink-0 overflow-hidden rounded-md border">
-                            {gallery.thumbnailUrl ? (
-                                <Image src={gallery.thumbnailUrl} alt={gallery.name} fill className="object-cover" />
-                            ) : (
-                                <div className="flex h-full w-full items-center justify-center bg-muted text-xs text-muted-foreground">
-                                    No Thumb
-                                </div>
-                            )}
-                        </div>
-                      <div className="flex-grow">
-                        <span className="font-semibold">{gallery.name}</span>
-                      </div>
-                      <div className="flex gap-2 w-full sm:w-auto">
-                        <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
-                          <Link href={`/admin/gallery/${gallery.id}`}>
-                            <Pencil className="mr-2 h-3 w-3" /> Manage
-                          </Link>
-                        </Button>
-                        <DeleteConfirmationDialog
-                          onConfirm={() => handleDeleteGallery(gallery.id, gallery.name)}
-                          itemName={gallery.name}
-                          itemType="gallery"
-                        >
-                           <Button variant="destructive" size="sm" className="flex-1 sm:flex-none">
-                            <Trash2 className="mr-2 h-3 w-3" /> Delete
-                          </Button>
-                        </DeleteConfirmationDialog>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No galleries found. Create one.</p>
-              )}
+                <CreateGalleryForm />
             </CardContent>
-          </Card>
-        </div>
-        
-        <div className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Create New Gallery</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CreateGalleryForm />
-            </CardContent>
-          </Card>
+        </Card>
 
-          {userProfile && (
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-8">
             <Card>
-              <CardHeader>
-                <CardTitle>Manage Profile</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <UpdateProfilePicForm user={user} userProfile={userProfile} />
-              </CardContent>
+                <CardHeader>
+                <CardTitle>Manage Galleries</CardTitle>
+                </CardHeader>
+                <CardContent>
+                {galleries && galleries.length > 0 ? (
+                    <ul className="space-y-4">
+                    {galleries.map((gallery) => (
+                        <li key={gallery.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 bg-secondary rounded-md">
+                            <div className="relative h-24 w-full sm:h-16 sm:w-24 flex-shrink-0 overflow-hidden rounded-md border">
+                                {gallery.thumbnailUrl ? (
+                                    <Image src={gallery.thumbnailUrl} alt={gallery.name} fill className="object-cover" />
+                                ) : (
+                                    <div className="flex h-full w-full items-center justify-center bg-muted text-xs text-muted-foreground">
+                                        No Thumb
+                                    </div>
+                                )}
+                            </div>
+                        <div className="flex-grow">
+                            <span className="font-semibold">{gallery.name}</span>
+                        </div>
+                        <div className="flex gap-2 w-full sm:w-auto">
+                            <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
+                            <Link href={`/admin/gallery/${gallery.id}`}>
+                                <Pencil className="mr-2 h-3 w-3" /> Manage
+                            </Link>
+                            </Button>
+                            <DeleteConfirmationDialog
+                            onConfirm={() => handleDeleteGallery(gallery.id, gallery.name)}
+                            itemName={gallery.name}
+                            itemType="gallery"
+                            >
+                            <Button variant="destructive" size="sm" className="flex-1 sm:flex-none">
+                                <Trash2 className="mr-2 h-3 w-3" /> Delete
+                            </Button>
+                            </DeleteConfirmationDialog>
+                        </div>
+                        </li>
+                    ))}
+                    </ul>
+                ) : (
+                    <p>No galleries found. Create one.</p>
+                )}
+                </CardContent>
             </Card>
-          )}
+            </div>
+            
+            <div className="space-y-8">
+            {userProfile && (
+                <Card>
+                <CardHeader>
+                    <CardTitle>Manage Profile</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <UpdateProfilePicForm user={user} userProfile={userProfile} />
+                </CardContent>
+                </Card>
+            )}
+            </div>
         </div>
       </div>
     </div>
