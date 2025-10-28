@@ -39,7 +39,7 @@ export default function HeroAnimation({ heroAvatarUrl }: HeroAnimationProps) {
         transition={{ ease: "easeOut", duration: 0.8, delay: 0.5 }}
         className="relative z-10"
       >
-        <div className="absolute -inset-2 rounded-full bg-primary/80 blur-3xl"></div>
+        <div className="absolute -inset-2 rounded-full bg-primary/80 blur-2xl"></div>
         <div className="relative rounded-full p-1 border-2 border-primary/50 bg-gradient-to-br from-primary to-accent">
           <div className={cn(
               "relative rounded-full overflow-hidden bg-card border-4 border-background",
