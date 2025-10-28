@@ -90,9 +90,9 @@ export default function AdminPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
         <h1 className="font-headline text-3xl md:text-4xl">Admin Dashboard</h1>
-        <Button onClick={handleLogout}>Logout</Button>
+        <Button onClick={handleLogout} className="w-full sm:w-auto">Logout</Button>
       </div>
       <p className="mb-8 text-sm md:text-base">
         Welcome, {welcomeEmail}! This is your admin dashboard.
@@ -132,8 +132,8 @@ export default function AdminPage() {
                         <div className="flex-grow">
                             <span className="font-semibold">{gallery.name}</span>
                         </div>
-                        <div className="flex gap-2 w-full sm:w-auto">
-                            <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-initial">
+                        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                            <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
                             <Link href={`/admin/gallery/${gallery.id}`}>
                                 <Pencil className="mr-2 h-3 w-3" /> Manage
                             </Link>
@@ -143,7 +143,7 @@ export default function AdminPage() {
                             itemName={gallery.name}
                             itemType="gallery"
                             >
-                            <Button variant="destructive" size="sm" className="flex-1 sm:flex-initial">
+                            <Button variant="destructive" size="sm" className="w-full sm:w-auto">
                                 <Trash2 className="mr-2 h-3 w-3" /> Delete
                             </Button>
                             </DeleteConfirmationDialog>

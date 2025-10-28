@@ -80,9 +80,9 @@ export default function AdminGalleryPage() {
         </Button>
       </div>
 
-      <div className="flex justify-between items-start mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start mb-8 gap-4">
         <div>
-          <h1 className="font-headline text-4xl">{gallery.name}</h1>
+          <h1 className="font-headline text-3xl md:text-4xl">{gallery.name}</h1>
           <p className="text-muted-foreground mt-2">Manage artworks and settings for this gallery.</p>
         </div>
       </div>
@@ -135,7 +135,7 @@ export default function AdminGalleryPage() {
             </CardContent>
           </Card>
         </div>
-        <div>
+        <div className="space-y-8">
             <Card>
                 <CardHeader>
                     <CardTitle>Update Gallery Thumbnail</CardTitle>
