@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -7,26 +8,22 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { useFirestore } from '@/firebase';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [isSigningIn, setIsSigningIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { app } = useAuth();
-  const firestore = useFirestore();
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
 
-    if (!app || !firestore) {
+    if (!app) {
       setError("Firebase is not initialized.");
       setIsLoading(false);
       return;
@@ -34,33 +31,8 @@ export default function LoginPage() {
     const auth = getAuth(app);
 
     try {
-      if (isSigningIn) {
-        await signInWithEmailAndPassword(auth, email, password);
-        router.push('/admin');
-      } else {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Use 'admin' as the document ID for the main user profile
-        const userDocRef = doc(firestore, 'users', 'admin'); 
-        await setDoc(userDocRef, {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.email,
-          photoURL: '', 
-        });
-
-        // Also create a document with the user's actual UID for their own management
-        const personalUserDocRef = doc(firestore, 'users', user.uid);
-        await setDoc(personalUserDocRef, {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.email,
-          photoURL: '',
-        });
-
-        router.push('/admin');
-      }
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push('/admin');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -73,10 +45,10 @@ export default function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="font-headline text-3xl">
-            {isSigningIn ? 'Admin Login' : 'Create Admin Account'}
+            Admin Login
           </CardTitle>
           <CardDescription>
-            {isSigningIn ? 'Enter your credentials to access the dashboard.' : 'Fill out the form to create a new account.'}
+            Enter your credentials to access the dashboard.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -104,22 +76,9 @@ export default function LoginPage() {
             </div>
             {error && <p className="text-destructive text-sm">{error}</p>}
             <Button type="submit" disabled={isLoading} className="w-full" size="lg">
-              {isLoading ? 'Loading...' : (isSigningIn ? 'Login' : 'Sign Up')}
+              {isLoading ? 'Loading...' : 'Login'}
             </Button>
           </form>
-          <div className="mt-6 text-center text-sm">
-            {isSigningIn ? "Don't have an account?" : "Already have an account?"}
-            <Button
-              variant="link"
-              onClick={() => {
-                setIsSigningIn(!isSigningIn);
-                setError(null);
-              }}
-              className="font-semibold"
-            >
-              {isSigningIn ? 'Sign Up' : 'Login'}
-            </Button>
-          </div>
         </CardContent>
       </Card>
     </div>
