@@ -17,7 +17,7 @@ const BackgroundCard = ({ className, delay = 0 }: { className?: string, delay?: 
     animate={{ opacity: 1, y: 0, rotate: 0 }}
     transition={{ type: 'spring', stiffness: 50, damping: 15, delay }}
     className={cn(
-      "absolute rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 backdrop-blur-md border border-white/10 shadow-lg",
+      "absolute rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 backdrop-blur-md border border-white/10",
       className
     )}
   />
@@ -34,7 +34,7 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default' }: He
         <BackgroundCard className="w-[70%] h-[50%] top-[5%] left-0" delay={0} />
         <BackgroundCard className="w-[60%] h-[60%] top-[20%] right-0" delay={0.2} />
         <BackgroundCard className="w-[50%] h-[40%] bottom-[5%] left-[10%]" delay={0.4} />
-        <BackgroundCard className="w-[40%] h-[30%] bottom-[10%] right-[5%]" delay={0.6} />
+        <BackgroundCard className="w-[40%] h-[30%] bottom-[15%] right-[5%]" delay={0.6} />
 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
       </div>
@@ -43,7 +43,7 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default' }: He
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 50, damping: 15, delay: 0.5 }}
-        className="relative"
+        className="relative z-10"
       >
         <div className="absolute -inset-2 rounded-full bg-primary/80 blur-xl"></div>
         <div className="relative rounded-full p-2 bg-gradient-to-br from-primary to-accent">
