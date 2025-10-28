@@ -30,13 +30,13 @@ export default function Home() {
     <div className="container mx-auto px-4">
       <section className="flex flex-col items-center text-center pt-8 md:pt-12 pb-16 md:pb-24 relative">
         <HeroAnimation heroAvatarUrl={heroAvatar?.imageUrl} />
-        <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl tracking-wider mt-4">
+        <h1 className="font-headline text-5xl sm:text-6xl md:text-8xl lg:text-9xl tracking-wider mt-4">
           RUBAYAT HASSAN
         </h1>
-        <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl">
+        <p className="mt-4 text-md sm:text-lg md:text-xl text-foreground/80 max-w-2xl">
           Creative Illustrator & Digital Artist
         </p>
-        <p className="mt-6 font-bio text-2xl md:text-3xl text-foreground/80 max-w-3xl leading-relaxed">
+        <p className="mt-6 font-bio text-xl sm:text-2xl md:text-3xl text-foreground/80 max-w-3xl leading-relaxed">
           Hi, I’m RUBAYAT, an 18-year-old artist who loves creating both digitally and traditionally. I work with digital art, inking, and painting — whatever helps bring my ideas to life. My style is a mix of mood, character, and a bit of pop culture. Sometimes it’s clean, sometimes messy — but always personal. I’m still growing, still experimenting, and always making something that feels true to me.
         </p>
         <div className="mt-12 flex flex-col items-center gap-2">
@@ -58,13 +58,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="my-8 md:my-12 py-16 bg-card/50 rounded-2xl shadow-lg">
-        <div className="grid grid-cols-1 items-center gap-12 px-8 md:px-16">
-          <div className="md:col-span-2 text-center">
-            <h2 className="font-headline text-5xl text-primary mb-4 tracking-wide">
+      <section className="my-8 md:my-12 py-12 sm:py-16 bg-card/50 rounded-2xl shadow-lg">
+        <div className="grid grid-cols-1 items-center gap-8 sm:gap-12 px-6 sm:px-8 md:px-16">
+          <div className="text-center">
+            <h2 className="font-headline text-4xl sm:text-5xl text-primary mb-4 tracking-wide">
               A Glimpse into My World
             </h2>
-            <p className="font-bio text-3xl md:text-4xl leading-relaxed text-foreground/90 max-w-4xl mx-auto">
+            <p className="font-bio text-2xl sm:text-3xl md:text-4xl leading-relaxed text-foreground/90 max-w-4xl mx-auto">
               &ldquo;Every canvas is a journey, and every stroke tells a story. I pour my heart into creating art that feels alive, blending chaotic creativity with clean, heartfelt expression.&rdquo;
             </p>
           </div>
@@ -72,7 +72,7 @@ export default function Home() {
       </section>
 
       <section id="gallery" className="my-16 md:my-24 scroll-mt-20">
-        <h2 className="text-center font-headline text-5xl tracking-wider mb-12">
+        <h2 className="text-center font-headline text-4xl sm:text-5xl tracking-wider mb-12">
           Explore My Gallery
         </h2>
         {galleriesLoading ? (
