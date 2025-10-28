@@ -15,7 +15,7 @@ const BackgroundCard = ({ className, delay = 0, initialProps = { opacity: 0, y: 
     animate={{ opacity: 1, y: 0, x: 0, rotate: 0, scale: 1 }}
     transition={{ ease: "easeOut", duration: 0.8, delay }}
     className={cn(
-      "absolute rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20",
+      "absolute rounded-2xl bg-card",
       className
     )}
   />
