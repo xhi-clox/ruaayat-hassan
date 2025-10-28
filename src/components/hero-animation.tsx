@@ -1,40 +1,33 @@
-
 "use client";
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { getPlaceholderImage } from '@/lib/utils';
 
 type HeroAnimationProps = {
   heroAvatarUrl?: string | null;
-  variant?: 'default' | 'small';
 };
 
 const BackgroundCard = ({ className, delay = 0 }: { className?: string, delay?: number }) => (
   <motion.div
-    initial={{ opacity: 0, y: 50, rotate: -10 }}
-    animate={{ opacity: 1, y: 0, rotate: 0 }}
+    initial={{ opacity: 0, y: 50, rotate: -10, scale: 0.9 }}
+    animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
     transition={{ type: 'spring', stiffness: 50, damping: 15, delay }}
     className={cn(
-      "absolute rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 backdrop-blur-md border border-white/10",
+      "absolute rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 border border-white/10",
       className
     )}
   />
 );
 
-export default function HeroAnimation({ heroAvatarUrl, variant = 'default' }: HeroAnimationProps) {
-    if (variant === 'small') {
-        return <div className="h-24 w-80" />;
-    }
-
+export default function HeroAnimation({ heroAvatarUrl }: HeroAnimationProps) {
   return (
     <div className="relative mb-8 flex h-72 w-72 items-center justify-center md:h-96 md:w-96">
       <div className="absolute inset-0">
-        <BackgroundCard className="w-[70%] h-[50%] top-[5%] left-0" delay={0} />
-        <BackgroundCard className="w-[60%] h-[60%] top-[20%] right-0" delay={0.2} />
-        <BackgroundCard className="w-[50%] h-[40%] bottom-[5%] left-[10%]" delay={0.4} />
-        <BackgroundCard className="w-[40%] h-[30%] bottom-[15%] right-[5%]" delay={0.6} />
+        <BackgroundCard className="w-[70%] h-[50%] top-[5%] left-0 rotate-[-15deg]" delay={0} />
+        <BackgroundCard className="w-[60%] h-[60%] top-[20%] right-0 rotate-[10deg]" delay={0.2} />
+        <BackgroundCard className="w-[50%] h-[40%] bottom-[5%] left-[10%] rotate-[5deg]" delay={0.4} />
+        <BackgroundCard className="w-[40%] h-[30%] bottom-[15%] right-[5%] rotate-[-5deg]" delay={0.6} />
 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
       </div>
@@ -46,7 +39,7 @@ export default function HeroAnimation({ heroAvatarUrl, variant = 'default' }: He
         className="relative z-10"
       >
         <div className="absolute -inset-2 rounded-full bg-primary/80 blur-xl"></div>
-        <div className="relative rounded-full p-2 bg-gradient-to-br from-primary to-accent">
+        <div className="relative rounded-full p-1 border-2 border-primary/50 bg-gradient-to-br from-primary to-accent">
           <div className={cn(
               "relative rounded-full overflow-hidden bg-card border-4 border-background",
               "h-64 w-64 md:h-80 md:w-80"
