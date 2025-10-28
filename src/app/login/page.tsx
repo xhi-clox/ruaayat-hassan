@@ -1,45 +1,65 @@
 
 'use client';
 
-import { useState } from 'react';
-import { useAuth } from '@/firebase';
+import { useState, useEffect } from 'react';
+import { useAuth, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const router = useRouter();
   const { app } = useAuth();
+  const { user, loading: userLoading } = useUser();
+
+  useEffect(() => {
+    // If user is already logged in, redirect to admin page.
+    if (!userLoading && user) {
+      router.push('/admin');
+    }
+  }, [user, userLoading, router]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setIsLoading(true);
+    setIsLoggingIn(true);
 
     if (!app) {
       setError("Firebase is not initialized.");
-      setIsLoading(false);
+      setIsLoggingIn(false);
       return;
     }
     const auth = getAuth(app);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/admin');
+      // The useEffect will handle the redirect
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setIsLoading(false);
+      setIsLoggingIn(false);
     }
   };
+  
+  // While checking for user state, show a loading indicator
+  // or if the user is already logged in, show nothing before redirect.
+  if (userLoading || user) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
+  // Only show login form if user is not logged in and not loading
   return (
     <div className="container mx-auto px-4 py-16 flex justify-center items-center">
       <Card className="w-full max-w-md">
@@ -75,8 +95,8 @@ export default function LoginPage() {
               />
             </div>
             {error && <p className="text-destructive text-sm">{error}</p>}
-            <Button type="submit" disabled={isLoading} className="w-full" size="lg">
-              {isLoading ? 'Loading...' : 'Login'}
+            <Button type="submit" disabled={isLoggingIn} className="w-full" size="lg">
+              {isLoggingIn ? 'Logging in...' : 'Login'}
             </Button>
           </form>
         </CardContent>
