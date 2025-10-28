@@ -133,7 +133,7 @@ export default function AdminPage() {
                             <span className="font-semibold">{gallery.name}</span>
                         </div>
                         <div className="flex gap-2 w-full sm:w-auto">
-                            <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
+                            <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-initial">
                             <Link href={`/admin/gallery/${gallery.id}`}>
                                 <Pencil className="mr-2 h-3 w-3" /> Manage
                             </Link>
@@ -143,7 +143,7 @@ export default function AdminPage() {
                             itemName={gallery.name}
                             itemType="gallery"
                             >
-                            <Button variant="destructive" size="sm" className="flex-1 sm:flex-none">
+                            <Button variant="destructive" size="sm" className="flex-1 sm:flex-initial">
                                 <Trash2 className="mr-2 h-3 w-3" /> Delete
                             </Button>
                             </DeleteConfirmationDialog>
